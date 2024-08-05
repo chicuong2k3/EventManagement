@@ -1,1 +1,1 @@
-# EventManagement
+# Event Management System

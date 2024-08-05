@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  eventmanagement.events.api:
+    image: ${DOCKER_REGISTRY-}eventmanagementeventsapi
+    build:
+      context: .
+      dockerfile: src/Modules/EventModule/EventManagement.Events.Api/Dockerfile
+
+  event-database:
+    image: postgres:latest
+    
