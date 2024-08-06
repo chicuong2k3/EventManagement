@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  event-database:
+  event.database:
     container_name: EventDatabase
     environment:
       - POSTGRES_DB=EventDatabase
@@ -13,15 +13,32 @@ services:
     volumes:
       - ./.containers/db:/var/lib/postgresql/data
 
+  pgadmin:
+    container_name: pgadmin4.container
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - 4040:80
+
   eventmanagement.events.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__DefaultConnection=Host=event-database;Port=5432;Database=EventDatabase;UserId=postgres;Password=postgres;Include Error Detail=true
+      - ConnectionStrings__DefaultConnection=Host=event.database;Port=5432;Database=EventDatabase;UserId=postgres;Password=postgres;Include Error Detail=true
     ports:
       - "5000:8080"
       - "5050:8081"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+ 
+  eventmanagement.seq:
+    container_name: EventManagement.Seq
+    environment: 
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80  

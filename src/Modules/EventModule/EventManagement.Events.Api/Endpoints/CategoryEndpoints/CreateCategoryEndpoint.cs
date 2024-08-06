@@ -16,7 +16,7 @@ public sealed class CreateCategoryEndpoint : ICarterModule
 
             var response = await sender.Send(command);
 
-            return response.Match(Results.Created);
+            return response.Match(Results.Created, $"/categories/{response.Value}");
 
         })
         .WithName("CreateCategory")

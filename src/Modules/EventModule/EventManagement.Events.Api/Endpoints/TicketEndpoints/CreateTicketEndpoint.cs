@@ -25,7 +25,7 @@ public sealed class CreateTicketEndpoint : ICarterModule
 
             var response = await sender.Send(command);
 
-            return response.Match(Results.Created);
+            return response.Match(Results.Created, $"/tickets/{response.Value}");
 
         })
         .WithName("CreateTicket")

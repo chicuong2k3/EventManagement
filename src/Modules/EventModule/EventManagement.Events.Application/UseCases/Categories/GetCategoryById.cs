@@ -21,8 +21,7 @@ internal sealed class GetCategoryByIdQueryHandler(
         {
             const string Sql =
                $"""
-                SELECT 
-                    SELECT
+                SELECT
                     id AS {nameof(GetCategoryByIdResponse.Id)},
                     name AS {nameof(GetCategoryByIdResponse.Name)},
                     is_archived AS {nameof(GetCategoryByIdResponse.IsArchived)}

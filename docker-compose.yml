@@ -7,6 +7,12 @@ services:
       context: .
       dockerfile: src/Modules/EventModule/EventManagement.Events.Api/Dockerfile
 
-  event-database:
+  event.database:
     image: postgres:latest
+  
+  eventmanagement.seq:
+    image: datalust/seq:latest
+
+  pgadmin:
+    image: dpage/pgadmin4
     

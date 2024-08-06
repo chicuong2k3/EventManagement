@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using EventManagement.Common.Application.Behaviours;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -14,7 +15,7 @@ namespace EventManagement.Common.Application
             {
                 config.RegisterServicesFromAssemblies(assemblies);
                 //config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
-                //config.AddOpenBehavior(typeof(LoggingBehaviour<,>));
+                config.AddOpenBehavior(typeof(RequestLoggingBehaviour<,>));
             });
 
             services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);

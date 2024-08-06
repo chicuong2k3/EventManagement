@@ -29,8 +29,8 @@ public sealed class CreateEventEndpoint : ICarterModule
 
             var response = await sender.Send(command);
 
-            return response.Match(Results.Created);
-            
+            return response.Match(Results.Created, $"/events/{response.Value}");
+
         })
         .WithName("CreateEvent")
         .WithTags(SwaggerTags.Events)

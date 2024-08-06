@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EventManagement.Events.Infrastructure.Extensions
 {
     public static class DatabaseExtensions
     {
-        internal static void ApplyMigrations(this IApplicationBuilder app)
+        public static void ApplyMigrations(this IServiceProvider services)
         {
-            using (var scope = app.ApplicationServices.CreateScope())
+            using (var scope = services.CreateScope())
             {
                 ApplyMigration<AppDbContext>(scope);
             }
