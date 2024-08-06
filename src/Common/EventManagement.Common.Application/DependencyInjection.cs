@@ -14,8 +14,9 @@ namespace EventManagement.Common.Application
             services.AddMediatR(config =>
             {
                 config.RegisterServicesFromAssemblies(assemblies);
-                //config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
                 config.AddOpenBehavior(typeof(RequestLoggingBehaviour<,>));
+                config.AddOpenBehavior(typeof(ExceptionHandlingBehaviour<,>));
+                config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
             });
 
             services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);

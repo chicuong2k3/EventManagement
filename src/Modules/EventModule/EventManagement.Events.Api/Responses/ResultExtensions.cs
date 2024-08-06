@@ -23,7 +23,7 @@ namespace EventManagement.Events.Api.Responses
             Func<string, TIn, IResult> onSuccess,
             string uri)
         {
-            return result.IsSuccess ? onSuccess(uri, result.Value) : ApiResponses.Problem(result);
+            return result.IsSuccess ? onSuccess($"{uri}/{result.Value}", result.Value) : ApiResponses.Problem(result);
         }
     }
 }

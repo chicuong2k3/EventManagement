@@ -1,4 +1,5 @@
 
+using EventManagement.Events.Api.ExceptionHandlers;
 using EventManagement.Events.Application;
 using EventManagement.Events.Infrastructure;
 using EventManagement.Events.Infrastructure.Extensions;
@@ -25,9 +26,14 @@ builder.Services.AddApplication([EventManagement.Events.Application.AssemblyRefe
 // Add Carter
 builder.Services.AddCarter();
 
+// Exception Handling
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+
+
 
 var app = builder.Build();
-
 
 
 if (app.Environment.IsDevelopment())
@@ -40,5 +46,7 @@ if (app.Environment.IsDevelopment())
 app.MapCarter();
 
 app.UseSerilogRequestLogging();
+
+app.UseExceptionHandler();
 
 app.Run();
