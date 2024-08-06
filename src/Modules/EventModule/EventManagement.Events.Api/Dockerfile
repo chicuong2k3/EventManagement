@@ -10,7 +10,12 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Modules/EventModule/EventManagement.Events.Api/EventManagement.Events.Api.csproj", "src/Modules/EventModule/EventManagement.Events.Api/"]
-COPY ["src/Common/EventManagement.Common/EventManagement.Common.csproj", "src/Common/EventManagement.Common/"]
+COPY ["src/Common/EventManagement.Common.Domain/EventManagement.Common.Domain.csproj", "src/Common/EventManagement.Common.Domain/"]
+COPY ["src/Modules/EventModule/EventManagement.Events.Application/EventManagement.Events.Application.csproj", "src/Modules/EventModule/EventManagement.Events.Application/"]
+COPY ["src/Common/EventManagement.Common.Application/EventManagement.Common.Application.csproj", "src/Common/EventManagement.Common.Application/"]
+COPY ["src/Modules/EventModule/EventManagement.Events.Domain/EventManagement.Events.Domain.csproj", "src/Modules/EventModule/EventManagement.Events.Domain/"]
+COPY ["src/Modules/EventModule/EventManagement.Events.Infrastructure/EventManagement.Events.Infrastructure.csproj", "src/Modules/EventModule/EventManagement.Events.Infrastructure/"]
+COPY ["src/Common/EventManagement.Common.Infrastructure/EventManagement.Common.Infrastructure.csproj", "src/Common/EventManagement.Common.Infrastructure/"]
 RUN dotnet restore "./src/Modules/EventModule/EventManagement.Events.Api/EventManagement.Events.Api.csproj"
 COPY . .
 WORKDIR "/src/src/Modules/EventModule/EventManagement.Events.Api"

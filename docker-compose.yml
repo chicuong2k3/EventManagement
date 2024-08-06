@@ -15,4 +15,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
+
+  eventmanagement.redis:
+    image: redis:latest
     

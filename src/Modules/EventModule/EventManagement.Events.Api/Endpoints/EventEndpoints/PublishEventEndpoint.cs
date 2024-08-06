@@ -1,6 +1,4 @@
-﻿using EventManagement.Events.Api.Responses;
-
-namespace EventManagement.Events.Api.Endpoints.EventEndpoints;
+﻿namespace EventManagement.Events.Api.Endpoints.EventEndpoints;
 
 public sealed class PublishEventEndpoint : ICarterModule
 {

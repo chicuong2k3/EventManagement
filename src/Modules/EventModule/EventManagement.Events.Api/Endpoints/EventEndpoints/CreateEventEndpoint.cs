@@ -1,7 +1,4 @@
-﻿using Evently.Modules.Events.Presentation.ApiResults;
-using EventManagement.Events.Api.Responses;
-using Microsoft.AspNetCore.Mvc;
-
+﻿
 namespace EventManagement.Events.Api.Endpoints.EventEndpoints;
 
 internal sealed record CreateEventRequest(

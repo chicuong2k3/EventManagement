@@ -11,16 +11,16 @@ namespace EventManagement.Events.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(
             this IServiceCollection services,
-            IConfiguration configuration)
+            string dbConnectionString,
+            string cacheConnectionString)
         {
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection")!;
-            services.AddInfrastructureCommon(connectionString);
+            services.AddInfrastructureCommon(dbConnectionString, cacheConnectionString);
 
             // Entity Framework Core
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseNpgsql(connectionString, sqlOptions =>
+                options.UseNpgsql(dbConnectionString, sqlOptions =>
                 {
                     sqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Events);
                 })

@@ -8,9 +8,15 @@
 
 	<ItemGroup>
 
+		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.1" />
+
+		<PackageReference Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
+
 		<PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
 
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.7" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
 	</ItemGroup>
 

@@ -1,7 +1,4 @@
-﻿using EventManagement.Events.Api.Responses;
-using Microsoft.AspNetCore.Mvc;
-
-namespace EventManagement.Events.Api.Endpoints.EventEndpoints;
+﻿namespace EventManagement.Events.Api.Endpoints.EventEndpoints;
 
 internal sealed record RescheduleEventRequest(
     DateTime StartsAt,

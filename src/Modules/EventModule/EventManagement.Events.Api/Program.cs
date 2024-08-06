@@ -4,6 +4,8 @@ using EventManagement.Events.Application;
 using EventManagement.Events.Infrastructure;
 using EventManagement.Events.Infrastructure.Extensions;
 using Serilog;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +21,20 @@ builder.Host.UseSerilog((context, loggerConfig) =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+// Connection Strings
+var dbConnectionString = builder.Configuration.GetConnectionString("Database")!;
+var cacheConnectionString = builder.Configuration.GetConnectionString("Cache")!;
+
+// Add Health Checks
+builder.Services.AddHealthChecks()
+    .AddNpgSql(dbConnectionString)
+    .AddRedis(cacheConnectionString); 
+
+// Add Modules' Services
 builder.Services.AddApplication([EventManagement.Events.Application.AssemblyReference.Assembly])
-    .AddInfrastructure(builder.Configuration);
+    .AddInfrastructure(dbConnectionString, cacheConnectionString);
 
 
 // Add Carter
@@ -43,7 +57,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// this must be come before Health Checks
 app.MapCarter();
+
+app.MapHealthChecks("health", new HealthCheckOptions()
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.UseSerilogRequestLogging();
 

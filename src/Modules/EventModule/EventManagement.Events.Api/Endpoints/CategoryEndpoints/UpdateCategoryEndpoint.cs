@@ -1,5 +1,4 @@
 ﻿using EventManagement.Events.Application.UseCases.Categories;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EventManagement.Events.Api.Endpoints.CategoryEndpoints;
 

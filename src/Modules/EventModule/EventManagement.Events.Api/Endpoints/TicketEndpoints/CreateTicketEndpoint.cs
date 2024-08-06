@@ -1,5 +1,4 @@
 ﻿using EventManagement.Events.Application.UseCases.Tickets;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EventManagement.Events.Api.Endpoints.TicketEndpoints;
 
