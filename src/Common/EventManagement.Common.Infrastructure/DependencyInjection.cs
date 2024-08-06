@@ -2,6 +2,7 @@
 using EventManagement.Common.Application.Data;
 using EventManagement.Common.Infrastructure.Caching;
 using EventManagement.Common.Infrastructure.Dapper;
+using EventManagement.Common.Infrastructure.Interceptors;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
@@ -31,6 +32,9 @@ namespace EventManagement.Common.Infrastructure
                 options.ConnectionMultiplexerFactory = () 
                 => Task.FromResult<IConnectionMultiplexer>(connectionMultiplexer);
             });
+
+            // Interceptors
+            services.TryAddSingleton<PublishDomainEventsInterceptor>();
 
             return services;
         }

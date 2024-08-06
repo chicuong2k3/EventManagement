@@ -1,4 +1,4 @@
-﻿using EventManagement.Events.Application.Abstractions;
+﻿using EventManagement.Events.Application.Abstractions.Data;
 
 
 namespace EventManagement.Events.Infrastructure.Data

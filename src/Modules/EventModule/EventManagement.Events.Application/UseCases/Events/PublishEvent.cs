@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Events.Application.UseCases.Events;
+﻿using EventManagement.Events.Application.Abstractions.Data;
+
+namespace EventManagement.Events.Application.UseCases.Events;
 
 public sealed record PublishEventCommand(Guid EventId) : ICommand;
 

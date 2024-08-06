@@ -21,6 +21,8 @@ namespace EventManagement.Common.Application
 
             services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);
 
+
+
             return services;
         }
     }

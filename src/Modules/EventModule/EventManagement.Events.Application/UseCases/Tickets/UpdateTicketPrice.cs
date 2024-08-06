@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Events.Application.UseCases.Tickets;
+﻿using EventManagement.Events.Application.Abstractions.Data;
+
+namespace EventManagement.Events.Application.UseCases.Tickets;
 
 public sealed record UpdateTicketPriceCommand(
     Guid Id,

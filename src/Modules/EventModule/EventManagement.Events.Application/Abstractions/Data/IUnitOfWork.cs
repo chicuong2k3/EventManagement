@@ -1,7 +1,7 @@
-﻿namespace EventManagement.Events.Application.Abstractions
+﻿namespace EventManagement.Events.Application.Abstractions.Data
 {
     public interface IUnitOfWork
     {
-        Task CommitAsync(CancellationToken cancellationToken = default); 
+        Task CommitAsync(CancellationToken cancellationToken = default);
     }
 }

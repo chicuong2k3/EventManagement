@@ -1,6 +1,8 @@
 ﻿
 
 
+using EventManagement.Events.Application.Abstractions.Data;
+
 namespace EventManagement.Events.Application.UseCases.Categories;
 
 public sealed record ArchiveCategoryCommand(Guid Id) : ICommand;

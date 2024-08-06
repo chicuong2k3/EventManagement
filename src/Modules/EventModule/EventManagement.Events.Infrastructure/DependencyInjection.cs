@@ -1,8 +1,8 @@
 ﻿using EventManagement.Common.Infrastructure;
-using EventManagement.Events.Application.Abstractions;
+using EventManagement.Common.Infrastructure.Interceptors;
+using EventManagement.Events.Application.Abstractions.Data;
 using EventManagement.Events.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EventManagement.Events.Infrastructure
@@ -18,14 +18,14 @@ namespace EventManagement.Events.Infrastructure
             services.AddInfrastructureCommon(dbConnectionString, cacheConnectionString);
 
             // Entity Framework Core
-            services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<AppDbContext>((serviceProvider, options) =>
             {
                 options.UseNpgsql(dbConnectionString, sqlOptions =>
                 {
                     sqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Events);
                 })
                 .UseSnakeCaseNamingConvention()
-                .AddInterceptors();
+                .AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>());
             });
 
             services.AddScoped<IEventRepository, EventRepository>();

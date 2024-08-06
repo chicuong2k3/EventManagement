@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Events.Application.UseCases.Categories;
+﻿using EventManagement.Events.Application.Abstractions.Data;
+
+namespace EventManagement.Events.Application.UseCases.Categories;
 
 public sealed record CreateCategoryCommand(string Name) : ICommand<Guid>;
 
