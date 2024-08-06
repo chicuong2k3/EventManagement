@@ -12,7 +12,7 @@ namespace EventManagement.Common.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructureCommon(
+        public static IServiceCollection AddCommonInfrastructure(
             this IServiceCollection services,
             string dbConnectionString,
             string cacheConnectionString)
@@ -25,13 +25,21 @@ namespace EventManagement.Common.Infrastructure
 
             // Redis caching
             services.TryAddSingleton<ICacheService, CacheService>();
-            var connectionMultiplexer = ConnectionMultiplexer.Connect(cacheConnectionString);
-            services.TryAddSingleton(connectionMultiplexer);
-            services.AddStackExchangeRedisCache(options =>
+
+            try
             {
-                options.ConnectionMultiplexerFactory = () 
-                => Task.FromResult<IConnectionMultiplexer>(connectionMultiplexer);
-            });
+                var connectionMultiplexer = ConnectionMultiplexer.Connect(cacheConnectionString);
+                services.TryAddSingleton(connectionMultiplexer);
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.ConnectionMultiplexerFactory = ()
+                    => Task.FromResult<IConnectionMultiplexer>(connectionMultiplexer);
+                });
+            }
+            catch
+            {
+                services.AddDistributedMemoryCache();
+            }
 
             // Interceptors
             services.TryAddSingleton<PublishDomainEventsInterceptor>();

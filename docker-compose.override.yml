@@ -2,9 +2,9 @@ version: '3.4'
 
 services:
   event.database:
-    container_name: EventDatabase
+    container_name: EventManagementDatabase
     environment:
-      - POSTGRES_DB=EventDatabase
+      - POSTGRES_DB=EventManagementDatabase
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     restart: always
@@ -21,20 +21,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin123
     ports:
       - 4040:80
-
-  eventmanagement.events.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Databse=Host=event.database;Port=5432;Database=EventDatabase;UserId=postgres;Password=postgres;Include Error Detail=true
-      - ConnectionStrings__Cache=eventmanagement.redis:6379
-    ports:
-      - "5000:8080"
-      - "5050:8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      
  
   eventmanagement.seq:
     container_name: EventManagement.Seq
@@ -49,3 +36,16 @@ services:
     restart: always
     ports:
       - 6379:6379
+  eventmanagement.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Databse=Host=event.database;Port=5432;Database=EventManagementDatabase;UserId=postgres;Password=postgres;Include Error Detail=true
+      - ConnectionStrings__Cache=eventmanagement.redis:6379
+    ports:
+      - "5000:8080"
+      - "5050:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

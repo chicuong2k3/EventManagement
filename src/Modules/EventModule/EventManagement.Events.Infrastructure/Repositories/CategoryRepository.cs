@@ -2,7 +2,7 @@
 
 namespace EventManagement.Events.Infrastructure.Repositories
 {
-    internal sealed class CategoryRepository(AppDbContext dbContext) : ICategoryRepository
+    internal sealed class CategoryRepository(EventsDbContext dbContext) : ICategoryRepository
     {
         public async Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {

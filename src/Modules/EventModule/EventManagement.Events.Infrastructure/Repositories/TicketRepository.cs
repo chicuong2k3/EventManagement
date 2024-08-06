@@ -1,6 +1,6 @@
 ﻿namespace EventManagement.Events.Infrastructure.Repositories
 {
-    internal sealed class TicketRepository(AppDbContext dbContext) : ITicketRepository
+    internal sealed class TicketRepository(EventsDbContext dbContext) : ITicketRepository
     {
         public async Task<bool> ExistsAsync(Guid eventId, CancellationToken cancellationToken = default)
         {

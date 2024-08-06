@@ -1,7 +1,7 @@
 ﻿
 namespace EventManagement.Events.Infrastructure.Repositories
 {
-    internal sealed class EventRepository(AppDbContext dbContext) : IEventRepository
+    internal sealed class EventRepository(EventsDbContext dbContext) : IEventRepository
     {
         public async Task<EventEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {

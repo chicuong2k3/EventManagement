@@ -44,16 +44,17 @@ namespace EventManagement.Events.Domain.Entities
             return ticket;
         }
 
-        public void UpdatePrice(decimal price)
+        public Result UpdatePrice(decimal price)
         {
-            if (Price == price)
+            if (Price != price)
             {
-                return;
+                Price = price;
+
+                Raise(new TicketPriceChanged(Id, Price));
             }
 
-            Price = price;
-
-            Raise(new TicketPriceChanged(Id, Price));
+            
+            return Result.Success();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace EventManagement.Common.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplicationCommon(
+        public static IServiceCollection AddCommonApplication(
             this IServiceCollection services,
             Assembly[] assemblies)
         {

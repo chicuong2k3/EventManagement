@@ -39,16 +39,16 @@ namespace EventManagement.Events.Domain.Entities
             return Result.Success();
         }
 
-        public void ChangeName(string name)
+        public Result ChangeName(string name)
         {
-            if (Name == name)
+            if (Name != name)
             {
-                return;
+                Name = name;
+
+                Raise(new CategoryNameChanged(Id, Name));
             }
 
-            Name = name;
-
-            Raise(new CategoryNameChanged(Id, Name));
+            return Result.Success();
         }
     }
 }

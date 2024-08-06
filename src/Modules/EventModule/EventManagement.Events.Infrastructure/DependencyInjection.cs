@@ -9,16 +9,13 @@ namespace EventManagement.Events.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(
+        public static IServiceCollection AddEventsInfrastructure(
             this IServiceCollection services,
-            string dbConnectionString,
-            string cacheConnectionString)
+            string dbConnectionString)
         {
 
-            services.AddInfrastructureCommon(dbConnectionString, cacheConnectionString);
-
             // Entity Framework Core
-            services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+            services.AddDbContext<EventsDbContext>((serviceProvider, options) =>
             {
                 options.UseNpgsql(dbConnectionString, sqlOptions =>
                 {
@@ -35,7 +32,7 @@ namespace EventManagement.Events.Infrastructure
 
             services.AddScoped<IUnitOfWork>(serviceProvider =>
             {
-                return serviceProvider.GetRequiredService<AppDbContext>();
+                return serviceProvider.GetRequiredService<EventsDbContext>();
             });
 
 
