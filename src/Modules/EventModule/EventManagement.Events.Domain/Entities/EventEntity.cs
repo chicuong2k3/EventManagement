@@ -44,7 +44,7 @@ namespace EventManagement.Events.Domain.Entities
                 Status = EventStatus.Draft
             };
 
-            eventEntity.Raise(new EventCreated(eventEntity.Id));
+            eventEntity.Raise(new EventCreatedDomainEvent(eventEntity.Id));
 
             return eventEntity;
         }
@@ -58,7 +58,7 @@ namespace EventManagement.Events.Domain.Entities
 
             Status = EventStatus.Published;
 
-            Raise(new EventPublished(Id));
+            Raise(new EventPublishedDomainEvent(Id));
 
             return Result.Success();
         }
@@ -66,7 +66,7 @@ namespace EventManagement.Events.Domain.Entities
         public Result Reschedule(DateTime startsAt, DateTime? endsAt)
         {
 
-            if (startsAt > DateTime.Now)
+            if (startsAt < DateTime.Now)
             {
                 return Result.Failure(EventErrors.StartDateInPast);
             }
@@ -74,7 +74,7 @@ namespace EventManagement.Events.Domain.Entities
             StartsAt = startsAt;
             EndsAt = endsAt;
 
-            Raise(new EventRescheduled(Id, StartsAt, EndsAt));
+            Raise(new EventRescheduledDomainEvent(Id, StartsAt, EndsAt));
 
             return Result.Success();
         }
@@ -93,7 +93,7 @@ namespace EventManagement.Events.Domain.Entities
 
             Status = EventStatus.Cancelled;
 
-            Raise(new EventCancelled(Id));
+            Raise(new EventCancelledDomainEvent(Id));
 
             return Result.Success();
         }

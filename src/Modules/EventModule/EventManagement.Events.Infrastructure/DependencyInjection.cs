@@ -1,7 +1,9 @@
 ﻿using EventManagement.Common.Infrastructure;
 using EventManagement.Common.Infrastructure.Interceptors;
 using EventManagement.Events.Application.Abstractions.Data;
+using EventManagement.Events.Infrastructure.PublicApi;
 using EventManagement.Events.Infrastructure.Repositories;
+using EventManagement.Events.PublicApi;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,13 +29,16 @@ namespace EventManagement.Events.Infrastructure
 
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
 
 
             services.AddScoped<IUnitOfWork>(serviceProvider =>
             {
                 return serviceProvider.GetRequiredService<EventsDbContext>();
             });
+
+            // Public Api
+            services.AddScoped<IEventsApi, EventsApi>();
 
 
             return services;

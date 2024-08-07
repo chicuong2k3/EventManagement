@@ -21,7 +21,7 @@ namespace EventManagement.Events.Domain.Entities
                 IsArchived = false
             };
 
-            category.Raise(new CategoryCreated(category.Id));
+            category.Raise(new CategoryCreatedDomainEvent(category.Id));
 
             return category;
         }
@@ -34,7 +34,7 @@ namespace EventManagement.Events.Domain.Entities
 
             IsArchived = true;
 
-            Raise(new CategoryArchived(Id));
+            Raise(new CategoryArchivedDomainEvent(Id));
 
             return Result.Success();
         }
@@ -45,7 +45,7 @@ namespace EventManagement.Events.Domain.Entities
             {
                 Name = name;
 
-                Raise(new CategoryNameChanged(Id, Name));
+                Raise(new CategoryNameChangedDomainEvent(Id, Name));
             }
 
             return Result.Success();

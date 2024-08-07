@@ -7,3 +7,6 @@ global using EventManagement.Users.Application.Abstractions.Data;
 global using EventManagement.Users.Domain.Errors;
 global using EventManagement.Users.Domain.Repositories;
 global using EventManagement.Users.Domain.Entities;
+global using EventManagement.Ticketing.PublicApi;
+global using EventManagement.Users.Domain.DomainEvents.Users;
+global using MediatR;

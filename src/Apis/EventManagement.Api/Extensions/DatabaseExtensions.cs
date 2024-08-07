@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EventManagement.Events.Infrastructure.Data;
 using EventManagement.Users.Infrastructure.Data;
+using EventManagement.Ticketing.Infrastructure.Data;
 
 namespace EventManagement.Api.Extensions
 {
@@ -12,6 +13,7 @@ namespace EventManagement.Api.Extensions
             {
                 ApplyMigration<EventsDbContext>(scope);
                 ApplyMigration<UsersDbContext>(scope);
+                ApplyMigration<TicketingDbContext>(scope);
             }
         }
 

@@ -7,6 +7,7 @@ using EventManagement.Common.Infrastructure;
 using EventManagement.Events.Infrastructure;
 using EventManagement.Users.Infrastructure;
 using EventManagement.Api.Extensions;
+using EventManagement.Ticketing.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,11 +37,13 @@ builder.Services.AddHealthChecks()
 // Add Module's Services
 builder.Services.AddCommonApplication([
     EventManagement.Events.Application.AssemblyReference.Assembly,
-    EventManagement.Users.Application.AssemblyReference.Assembly
+    EventManagement.Users.Application.AssemblyReference.Assembly,
+    EventManagement.Ticketing.Application.AssemblyReference.Assembly
 ])
 .AddCommonInfrastructure(dbConnectionString, cacheConnectionString)
 .AddEventsInfrastructure(dbConnectionString)
-.AddUsersInfrastructure(dbConnectionString);
+.AddUsersInfrastructure(dbConnectionString)
+.AddTicketingInfrastructure(dbConnectionString);
 
 
 // Add Carter

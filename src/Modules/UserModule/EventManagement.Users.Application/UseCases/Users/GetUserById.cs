@@ -25,14 +25,14 @@ internal sealed class GetUserByIdQueryHandler(
                 SELECT
                     id AS {nameof(GetUserByIdResponse.Id)},
                     email AS {nameof(GetUserByIdResponse.Email)},
-                    first_name AS {nameof(GetUserByIdResponse.FirstName)}
+                    first_name AS {nameof(GetUserByIdResponse.FirstName)},
                     last_name AS {nameof(GetUserByIdResponse.LastName)}
                 FROM users.users
                 WHERE id = @Id
                 """
             ;
 
-            var user = await connection.QuerySingleOrDefaultAsync<GetUserByIdResponse>(Sql, query);
+            var user = await connection.QueryFirstOrDefaultAsync<GetUserByIdResponse>(Sql, query);
             if (user == null)
             {
                 return Result.Failure<GetUserByIdResponse>(UserErrors.NotFound(query.Id));

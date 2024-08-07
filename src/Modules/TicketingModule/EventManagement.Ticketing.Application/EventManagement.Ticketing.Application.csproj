@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\EventManagement.Common.Application\EventManagement.Common.Application.csproj" />
+    <ProjectReference Include="..\..\EventModule\EventManagement.Events.PublicApi\EventManagement.Events.PublicApi.csproj" />
+    <ProjectReference Include="..\..\UserModule\EventManagement.Users.UserApi\EventManagement.Users.UserApi.csproj" />
+    <ProjectReference Include="..\EventManagement.Ticketing.Domain\EventManagement.Ticketing.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

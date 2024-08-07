@@ -1,5 +1,4 @@
 ﻿using EventManagement.Common.Application.Exceptions;
-using EventManagement.Common.Domain.Results;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

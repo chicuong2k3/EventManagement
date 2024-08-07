@@ -22,7 +22,7 @@ namespace EventManagement.Events.Infrastructure.Data
 
         internal DbSet<EventEntity> Events { get; set; }
         internal DbSet<Category> Categories { get; set; }
-        internal DbSet<Ticket> Tickets { get; set; }
+        internal DbSet<TicketType> TicketTypes { get; set; }
     }
 
 }

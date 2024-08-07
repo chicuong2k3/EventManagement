@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\EventManagement.Common.Infrastructure\EventManagement.Common.Infrastructure.csproj" />
     <ProjectReference Include="..\EventManagement.Users.Application\EventManagement.Users.Application.csproj" />
+    <ProjectReference Include="..\EventManagement.Users.UserApi\EventManagement.Users.UserApi.csproj" />
   </ItemGroup>
 
 </Project>

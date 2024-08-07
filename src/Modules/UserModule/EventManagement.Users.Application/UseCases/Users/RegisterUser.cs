@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Users.Application.UseCases.Users;
+﻿using EventManagement.Ticketing.PublicApi;
+
+namespace EventManagement.Users.Application.UseCases.Users;
 
 public sealed record RegisterUserCommand(
     string Email,

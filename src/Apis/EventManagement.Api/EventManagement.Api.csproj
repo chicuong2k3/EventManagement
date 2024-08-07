@@ -28,9 +28,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\EventManagement.Common.Api\EventManagement.Common.Api.csproj" />
-    <ProjectReference Include="..\..\Modules\EventModule\EventManagement.Events.Application\EventManagement.Events.Application.csproj" />
     <ProjectReference Include="..\..\Modules\EventModule\EventManagement.Events.Infrastructure\EventManagement.Events.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Modules\UserModule\EventManagement.Users.Application\EventManagement.Users.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\TicketingModule\EventManagement.Ticketing.Infrastructure\EventManagement.Ticketing.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\UserModule\EventManagement.Users.Infrastructure\EventManagement.Users.Infrastructure.csproj" />
   </ItemGroup>
 

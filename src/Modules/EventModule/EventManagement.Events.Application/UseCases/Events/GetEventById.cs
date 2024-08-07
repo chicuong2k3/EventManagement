@@ -10,8 +10,7 @@ public sealed record GetEventByIdResponse(
     string Location,
     Guid CategoryId,
     DateTime StartsAt,
-    DateTime? EndsAt,
-    string Status
+    DateTime? EndsAt
 )
 {
     public List<TicketResponse> Tickets { get; } = [];
@@ -21,7 +20,7 @@ public sealed record TicketResponse(
     string Name,
     decimal Price,
     string Currency,
-    decimal Quantity);
+    int Quantity);
 
 
 public sealed record GetEventByIdQuery(Guid Id) : IQuery<GetEventByIdResponse>;
@@ -37,20 +36,20 @@ internal sealed class GetEventByIdQueryHandler(
             const string Sql =
                $"""
                 SELECT 
-                    id AS {nameof(GetEventByIdResponse.Id)},
-                    title AS {nameof(GetEventByIdResponse.Title)},
-                    description AS {nameof(GetEventByIdResponse.Description)},
-                    location AS {nameof(GetEventByIdResponse.Location)},
-                    category_id AS {nameof(GetEventByIdResponse.CategoryId)},
-                    starts_at AS {nameof(GetEventByIdResponse.StartsAt)},
-                    ends_at AS {nameof(GetEventByIdResponse.EndsAt)},
+                    e.id AS {nameof(GetEventByIdResponse.Id)},
+                    e.title AS {nameof(GetEventByIdResponse.Title)},
+                    e.description AS {nameof(GetEventByIdResponse.Description)},
+                    e.location AS {nameof(GetEventByIdResponse.Location)},
+                    e.category_id AS {nameof(GetEventByIdResponse.CategoryId)},
+                    e.starts_at AS {nameof(GetEventByIdResponse.StartsAt)},
+                    e.ends_at AS {nameof(GetEventByIdResponse.EndsAt)},
                     t.id AS {nameof(TicketResponse.TicketId)},
                     t.name AS {nameof(TicketResponse.Name)},
                     t.price AS {nameof(TicketResponse.Price)},
                     t.currency AS {nameof(TicketResponse.Currency)},
                     t.quantity AS {nameof(TicketResponse.Quantity)}
                 FROM events.events e
-                LEFT JOIN events.tickets t ON t.event_id = e.id
+                LEFT JOIN events.ticket_types t ON t.event_id = e.id
                 WHERE e.id = @Id
                 """;
 
@@ -77,7 +76,8 @@ internal sealed class GetEventByIdQueryHandler(
                     return eventEntity;
                 },
                 query,
-            splitOn: nameof(TicketResponse.TicketId));
+                splitOn: nameof(TicketResponse.TicketId)
+            );
 
             if (!eventsDictionary.TryGetValue(query.Id, out GetEventByIdResponse? response))
             {

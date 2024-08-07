@@ -14,7 +14,7 @@ internal sealed class PublishEventCommandValidator : AbstractValidator<PublishEv
 }
 internal sealed class PublishEventCommandHandler(
     IEventRepository eventRepository,
-    ITicketRepository ticketRepository,
+    ITicketTypeRepository ticketRepository,
     IUnitOfWork unitOfWork)
     : ICommandHandler<PublishEventCommand>
 {

@@ -22,7 +22,7 @@ namespace EventManagement.Users.Domain.Entities
                 LastName = lastName
             };
 
-            user.Raise(new UserRegistered(user.Id));
+            user.Raise(new UserRegisteredDomainEvent(user.Id));
 
             return user;
         }
@@ -34,7 +34,7 @@ namespace EventManagement.Users.Domain.Entities
             {
                 FirstName = firstName;
                 LastName = lastName;
-                Raise(new UserProfileUpdated(Id, FirstName, LastName));
+                Raise(new UserProfileUpdatedDomainEvent(Id, FirstName, LastName));
             }
 
             return Result.Success();

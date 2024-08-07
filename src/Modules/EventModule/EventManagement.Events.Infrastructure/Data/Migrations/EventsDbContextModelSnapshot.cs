@@ -94,7 +94,7 @@ namespace EventManagement.Events.Infrastructure.Data.Migrations
                     b.ToTable("events", "events");
                 });
 
-            modelBuilder.Entity("EventManagement.Events.Domain.Entities.Ticket", b =>
+            modelBuilder.Entity("EventManagement.Events.Domain.Entities.TicketType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,12 +126,12 @@ namespace EventManagement.Events.Infrastructure.Data.Migrations
                         .HasColumnName("quantity");
 
                     b.HasKey("Id")
-                        .HasName("pk_tickets");
+                        .HasName("pk_ticket_types");
 
                     b.HasIndex("EventId")
-                        .HasDatabaseName("ix_tickets_event_id");
+                        .HasDatabaseName("ix_ticket_types_event_id");
 
-                    b.ToTable("tickets", "events");
+                    b.ToTable("ticket_types", "events");
                 });
 
             modelBuilder.Entity("EventManagement.Events.Domain.Entities.EventEntity", b =>
@@ -144,14 +144,14 @@ namespace EventManagement.Events.Infrastructure.Data.Migrations
                         .HasConstraintName("fk_events_categories_category_id");
                 });
 
-            modelBuilder.Entity("EventManagement.Events.Domain.Entities.Ticket", b =>
+            modelBuilder.Entity("EventManagement.Events.Domain.Entities.TicketType", b =>
                 {
                     b.HasOne("EventManagement.Events.Domain.Entities.EventEntity", null)
                         .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_tickets_events_event_id");
+                        .HasConstraintName("fk_ticket_types_events_event_id");
                 });
 #pragma warning restore 612, 618
         }
