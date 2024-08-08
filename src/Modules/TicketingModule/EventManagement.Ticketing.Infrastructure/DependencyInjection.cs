@@ -1,17 +1,22 @@
 ﻿using EventManagement.Common.Infrastructure.Interceptors;
 using EventManagement.Ticketing.Application.Abstractions.Data;
+using EventManagement.Ticketing.Application.IntegrationEventComsumers;
 using EventManagement.Ticketing.Application.UseCases.Carts;
 using EventManagement.Ticketing.Infrastructure.Data;
-using EventManagement.Ticketing.Infrastructure.PublicApi;
 using EventManagement.Ticketing.Infrastructure.Repositories;
-using EventManagement.Ticketing.PublicApi;
+using MassTransit;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EventManagement.Ticketing.Infrastructure
 {
+    
     public static class DependencyInjection
     {
+        public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+        {
+            registrationConfigurator.AddConsumer<UserRegisteredIntegrationEventComsumer>();
+        }
         public static IServiceCollection AddTicketingInfrastructure(
             this IServiceCollection services,
             string dbConnectionString)
@@ -38,8 +43,6 @@ namespace EventManagement.Ticketing.Infrastructure
 
             services.AddSingleton<CartService>();
 
-            // Public Api
-            services.AddScoped<ITicketingApi, TicketingApi>();
             
             return services;
         }

@@ -40,7 +40,11 @@ builder.Services.AddCommonApplication([
     EventManagement.Users.Application.AssemblyReference.Assembly,
     EventManagement.Ticketing.Application.AssemblyReference.Assembly
 ])
-.AddCommonInfrastructure(dbConnectionString, cacheConnectionString)
+.AddCommonInfrastructure(
+    [EventManagement.Ticketing.Infrastructure.DependencyInjection.ConfigureConsumers], 
+    dbConnectionString, 
+    cacheConnectionString
+)
 .AddEventsInfrastructure(dbConnectionString)
 .AddUsersInfrastructure(dbConnectionString)
 .AddTicketingInfrastructure(dbConnectionString);

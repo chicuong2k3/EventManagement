@@ -1,6 +1,4 @@
-﻿using EventManagement.Ticketing.PublicApi;
-
-namespace EventManagement.Users.Application.UseCases.Users;
+﻿namespace EventManagement.Users.Application.UseCases.Users;
 
 public sealed record RegisterUserCommand(
     string Email,
@@ -35,6 +33,8 @@ internal sealed class RegisterUserCommandHandler(
 {
     public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
     {
+        // Validate duplicate email
+
         var user = User.Create(command.Email, command.FirstName, command.LastName);
 
         userRepository.Insert(user);

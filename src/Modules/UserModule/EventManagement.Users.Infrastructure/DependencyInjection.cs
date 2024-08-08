@@ -1,5 +1,4 @@
 ﻿using EventManagement.Common.Infrastructure.Interceptors;
-using EventManagement.Users.Infrastructure.PublicApi;
 using EventManagement.Users.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,8 +31,6 @@ namespace EventManagement.Users.Infrastructure
                 return serviceProvider.GetRequiredService<UsersDbContext>();
             });
 
-            // Public Api
-            services.AddScoped<IUsersApi, UsersApi>();
 
 
             return services;

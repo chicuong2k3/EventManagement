@@ -1,8 +1,11 @@
 ﻿using EventManagement.Common.Application.Caching;
 using EventManagement.Common.Application.Data;
+using EventManagement.Common.Application.EventBuses;
 using EventManagement.Common.Infrastructure.Caching;
 using EventManagement.Common.Infrastructure.Dapper;
+using EventManagement.Common.Infrastructure.EventBuses;
 using EventManagement.Common.Infrastructure.Interceptors;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
@@ -14,6 +17,7 @@ namespace EventManagement.Common.Infrastructure
     {
         public static IServiceCollection AddCommonInfrastructure(
             this IServiceCollection services,
+            Action<IRegistrationConfigurator>[] configureConsumers,    
             string dbConnectionString,
             string cacheConnectionString)
         {
@@ -43,6 +47,25 @@ namespace EventManagement.Common.Infrastructure
 
             // Interceptors
             services.TryAddSingleton<PublishDomainEventsInterceptor>();
+
+            // Messaging
+            services.TryAddSingleton<IEventBus, EventBus>();
+            services.AddMassTransit(configure =>
+            {
+                configure.UsingInMemory((context, config) =>
+                {
+                    config.ConfigureEndpoints(context);
+                });
+
+                configure.SetKebabCaseEndpointNameFormatter();
+
+                foreach (var configureConsumer in configureConsumers)
+                {
+                    configureConsumer(configure);
+                }
+
+                
+            });
 
             return services;
         }

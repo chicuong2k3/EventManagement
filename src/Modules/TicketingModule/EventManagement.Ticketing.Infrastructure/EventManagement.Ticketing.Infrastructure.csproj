@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\EventManagement.Common.Infrastructure\EventManagement.Common.Infrastructure.csproj" />
     <ProjectReference Include="..\EventManagement.Ticketing.Application\EventManagement.Ticketing.Application.csproj" />
-    <ProjectReference Include="..\EventManagement.Ticketing.PublicApi\EventManagement.Ticketing.PublicApi.csproj" />
   </ItemGroup>
 
 </Project>
