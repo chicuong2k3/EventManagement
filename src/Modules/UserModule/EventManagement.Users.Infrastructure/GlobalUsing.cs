@@ -4,3 +4,7 @@ global using Microsoft.EntityFrameworkCore;
 global using System.Reflection;
 global using EventManagement.Users.Domain.Repositories;
 global using EventManagement.Users.Infrastructure.Data;
+global using EventManagement.Common.Application.Authorization;
+global using EventManagement.Common.Domain.Results;
+global using EventManagement.Users.Application.UseCases.Users;
+global using MediatR;

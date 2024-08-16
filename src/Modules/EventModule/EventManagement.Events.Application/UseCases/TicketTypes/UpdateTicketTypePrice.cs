@@ -20,20 +20,20 @@ internal sealed class UpdateTicketTypePriceCommandValidator : AbstractValidator<
     }
 }
 internal sealed class UpdateTicketTypePriceCommandHandler(
-    ITicketTypeRepository ticketRepository,
+    ITicketTypeRepository ticketTypeRepository,
     IUnitOfWork unitOfWork)
     : ICommandHandler<UpdateTicketTypePriceCommand>
 {
     public async Task<Result> Handle(UpdateTicketTypePriceCommand command, CancellationToken cancellationToken)
     {
-        var ticket = await ticketRepository.GetByIdAsync(command.Id, cancellationToken);
+        var ticketType = await ticketTypeRepository.GetByIdAsync(command.Id, cancellationToken);
 
-        if (ticket == null)
+        if (ticketType == null)
         {
             return Result.Failure(TicketTypeErrors.NotFound(command.Id));
         }
 
-        ticket.UpdatePrice(command.Price);
+        ticketType.UpdatePrice(command.Price);
 
         await unitOfWork.CommitAsync(cancellationToken);
 

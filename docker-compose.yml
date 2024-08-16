@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
 
-  event.database:
+  eventmanagement.database:
     image: postgres:latest
   
   eventmanagement.seq:
@@ -21,3 +21,5 @@ services:
       context: ..
       dockerfile: EventManagement/src/Apis/EventManagement.Api/Dockerfile
 
+  eventmanagement.identity:
+    image: quay.io/keycloak/keycloak:latest

@@ -13,4 +13,8 @@
     <ProjectReference Include="..\EventManagement.Ticketing.Domain\EventManagement.Ticketing.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\Payments\" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,12 @@
+{
+  "Users": {
+    "KeyCloak": {
+      // The / in the end of AdminUrl is important as it is used in KeyCloakClient
+      "AdminUrl": "http://eventmanagement.identity:8080/admin/realms/eventmanagement/",
+      "TokenUrl": "http://eventmanagement.identity:8080/realms/eventmanagement/protocol/openid-connect/token",
+      "ConfidentialClientId": "eventmanagement-confidential-client",
+      "ConfidentialClientSecret": "cv1GWB42RfrXDbF5GNDtCzMZSLkSESLp",
+      "PublicClientId": "eventmanagement-public-client"
+    }
+  }
+}

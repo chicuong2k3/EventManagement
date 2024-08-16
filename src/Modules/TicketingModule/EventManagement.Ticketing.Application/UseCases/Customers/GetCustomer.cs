@@ -13,7 +13,7 @@ public sealed record GetCustomerResponse(
 
 public sealed record GetCustomerQuery(Guid Id) : IQuery<GetCustomerResponse>;
 
-internal sealed class GetUserByIdQueryHandler(
+internal sealed class GetCustomerByIdQueryHandler(
     IDbConnectionFactory dbConnectionFactory)
     : IQueryHandler<GetCustomerQuery, GetCustomerResponse>
 {

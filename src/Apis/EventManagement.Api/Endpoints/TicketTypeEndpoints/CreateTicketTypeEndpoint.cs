@@ -22,7 +22,7 @@ public sealed class CreateTicketTypeEndpoint : ICarterModule
 
             var response = await sender.Send(command);
 
-            return response.Match(Results.Created, $"/ticket-types");
+            return response.Match(Results.Ok);
 
         })
         .WithName("CreateTicketType")

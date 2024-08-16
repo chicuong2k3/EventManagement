@@ -5,7 +5,7 @@ namespace EventManagement.Common.Domain
     public abstract class Entity
     {
         private readonly List<IDomainEvent> domainEvents = [];
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => domainEvents;
+        public IReadOnlyCollection<IDomainEvent> DomainEvents => domainEvents.AsReadOnly();
         protected Entity()
         {
 

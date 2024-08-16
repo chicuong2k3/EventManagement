@@ -1,5 +1,4 @@
-﻿
-namespace EventManagement.Ticketing.Application.UseCases.Carts.CommandHandlers;
+﻿namespace EventManagement.Ticketing.Application.UseCases.Carts.CommandHandlers;
 
 public sealed record ClearCartCommand(Guid CustomerId) : ICommand;
 
@@ -19,7 +18,7 @@ internal sealed class ClearCartCommandHandler(ICustomerRepository customerReposi
     {
         var customer = await customerRepository.GetByIdAsync(request.CustomerId, cancellationToken);
 
-        if (customer is null)
+        if (customer == null)
         {
             return Result.Failure(CustomerErrors.NotFound(request.CustomerId));
         }

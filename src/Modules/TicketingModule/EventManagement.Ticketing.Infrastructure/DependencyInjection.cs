@@ -1,16 +1,17 @@
 ﻿using EventManagement.Common.Infrastructure.Interceptors;
 using EventManagement.Ticketing.Application.Abstractions.Data;
 using EventManagement.Ticketing.Application.IntegrationEventComsumers;
-using EventManagement.Ticketing.Application.UseCases.Carts;
+using EventManagement.Ticketing.Application.Services;
 using EventManagement.Ticketing.Infrastructure.Data;
 using EventManagement.Ticketing.Infrastructure.Repositories;
+using EventManagement.Ticketing.Infrastructure.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EventManagement.Ticketing.Infrastructure
 {
-    
+
     public static class DependencyInjection
     {
         public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
@@ -34,7 +35,11 @@ namespace EventManagement.Ticketing.Infrastructure
             });
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
-
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
 
             services.AddScoped<IUnitOfWork>(serviceProvider =>
             {
@@ -42,6 +47,7 @@ namespace EventManagement.Ticketing.Infrastructure
             });
 
             services.AddSingleton<CartService>();
+            services.AddSingleton<IPaymentService, PaymentService>();
 
             
             return services;

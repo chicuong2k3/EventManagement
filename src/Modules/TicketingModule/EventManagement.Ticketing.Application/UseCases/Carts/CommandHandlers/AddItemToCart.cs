@@ -45,7 +45,7 @@ internal sealed class AddItemToCartCommandHandler(
 
         var cartItem = new CartItem()
         {
-            TicketId = ticketType.Id,
+            TicketTypeId = ticketType.Id,
             Price = ticketType.Price,
             Currency = ticketType.Currency,
             Quantity = command.Quantity

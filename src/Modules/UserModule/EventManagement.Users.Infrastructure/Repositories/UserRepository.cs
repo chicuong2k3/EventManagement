@@ -11,6 +11,11 @@ namespace EventManagement.Users.Infrastructure.Repositories
 
         public void Insert(User user)
         {
+            foreach (var role in user.Roles)
+            {
+                dbContext.Attach(role);
+            }
+
             dbContext.Users.Add(user);
         }
     }

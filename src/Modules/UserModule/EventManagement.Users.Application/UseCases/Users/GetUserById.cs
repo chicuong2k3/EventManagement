@@ -32,7 +32,7 @@ internal sealed class GetUserByIdQueryHandler(
                 """
             ;
 
-            var user = await connection.QueryFirstOrDefaultAsync<GetUserByIdResponse>(Sql, query);
+            var user = await connection.QuerySingleOrDefaultAsync<GetUserByIdResponse>(Sql, query);
             if (user == null)
             {
                 return Result.Failure<GetUserByIdResponse>(UserErrors.NotFound(query.Id));

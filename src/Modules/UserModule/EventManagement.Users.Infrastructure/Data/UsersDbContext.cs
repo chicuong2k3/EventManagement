@@ -20,6 +20,8 @@ namespace EventManagement.Users.Infrastructure.Data
         }
 
         internal DbSet<User> Users { get; set; }
+        internal DbSet<Role> Roles { get; set; }
+        internal DbSet<Permission> Permissions { get; set; }
     }
 
 }

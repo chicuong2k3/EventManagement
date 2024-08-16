@@ -1,6 +1,4 @@
-﻿using EventManagement.Ticketing.Domain.Entities;
-
-namespace EventManagement.Ticketing.Domain.Repositories
+﻿namespace EventManagement.Ticketing.Domain.Repositories
 {
     public interface ICustomerRepository
     {

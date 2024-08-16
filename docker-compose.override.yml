@@ -1,13 +1,13 @@
 version: '3.4'
 
 services:
-  event.database:
+  eventmanagement.database:
     container_name: EventManagementDatabase
+    restart: always
     environment:
       - POSTGRES_DB=EventManagementDatabase
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    restart: always
     ports:
       - 5432:5432
     volumes:
@@ -25,6 +25,7 @@ services:
  
   eventmanagement.seq:
     container_name: EventManagement.Seq
+    restart: always
     environment: 
       - ACCEPT_EULA=Y
     ports:
@@ -41,7 +42,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Databse=Host=event.database;Port=5432;Database=EventManagementDatabase;UserId=postgres;Password=postgres;Include Error Detail=true
+      - ConnectionStrings__Databse=Host=eventmanagement.database;Port=5432;Database=EventManagementDatabase;UserId=postgres;Password=postgres;Include Error Detail=true
       - ConnectionStrings__Cache=eventmanagement.redis:6379
     ports:
       - "5000:8080"
@@ -49,3 +50,19 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - eventmanagement.database
+      - eventmanagement.redis
+
+  eventmanagement.identity:
+    container_name: EventManagement.Identity
+    command: start-dev
+    environment:
+      - KC_HEALTH_ENABLED=true
+      - KC_METRICS_ENABLED=true
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - ./.containers/identity:/opt/keycloak/data
+    ports:
+      - 18080:8080

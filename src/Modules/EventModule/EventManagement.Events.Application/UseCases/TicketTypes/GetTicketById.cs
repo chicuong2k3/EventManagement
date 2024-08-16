@@ -36,7 +36,7 @@ internal sealed class GetTicketTypeByIdQueryHandler(
                 """
             ;
 
-            var ticketType = await connection.QueryFirstOrDefaultAsync<GetTicketTypeByIdResponse>(Sql, query);
+            var ticketType = await connection.QuerySingleOrDefaultAsync<GetTicketTypeByIdResponse>(Sql, query);
             if (ticketType == null)
             {
                 return Result.Failure<GetTicketTypeByIdResponse>(TicketTypeErrors.NotFound(query.Id));

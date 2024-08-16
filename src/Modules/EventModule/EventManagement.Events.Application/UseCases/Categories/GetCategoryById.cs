@@ -30,7 +30,7 @@ internal sealed class GetCategoryByIdQueryHandler(
                 """
             ;
 
-            var category = await connection.QueryFirstOrDefaultAsync<GetCategoryByIdResponse>(Sql, query);
+            var category = await connection.QuerySingleOrDefaultAsync<GetCategoryByIdResponse>(Sql, query);
             if (category == null)
             {
                 return Result.Failure<GetCategoryByIdResponse>(CategoryErrors.NotFound(query.Id));

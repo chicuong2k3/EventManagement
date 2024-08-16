@@ -23,6 +23,7 @@ public sealed class GetCategoriesEndpoint : ICarterModule
 
             return response.Match(Results.Ok);
         })
+        .RequireAuthorization()
         .WithName("GetCategories")
         .WithTags(SwaggerTags.Categories)
         .WithOpenApi();

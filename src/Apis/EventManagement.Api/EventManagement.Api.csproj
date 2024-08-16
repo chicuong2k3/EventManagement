@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="8.0.1" />
 
 	  <PackageReference Include="Carter" Version="8.0.0" />
 
@@ -31,6 +32,10 @@
     <ProjectReference Include="..\..\Modules\EventModule\EventManagement.Events.Infrastructure\EventManagement.Events.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\TicketingModule\EventManagement.Ticketing.Infrastructure\EventManagement.Ticketing.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\UserModule\EventManagement.Users.Infrastructure\EventManagement.Users.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Endpoints\CustomerEndpoints\" />
   </ItemGroup>
 
 </Project>

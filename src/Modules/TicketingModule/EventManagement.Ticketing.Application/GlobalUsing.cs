@@ -5,3 +5,5 @@ global using EventManagement.Ticketing.Application.Abstractions.Data;
 global using EventManagement.Ticketing.Domain.Repositories;
 global using EventManagement.Ticketing.Domain.Errors;
 global using MassTransit;
+global using EventManagement.Ticketing.Application.Services;
+global using EventManagement.Ticketing.Domain.Entities;

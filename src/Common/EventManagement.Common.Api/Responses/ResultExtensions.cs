@@ -18,13 +18,5 @@ namespace EventManagement.Common.Api.Responses
         {
             return result.IsSuccess ? onSuccess(result.Value) : ApiResponses.Problem(result);
         }
-
-        public static IResult Match<TIn>(
-            this Result<TIn> result,
-            Func<string, TIn, IResult> onSuccess,
-            string uri)
-        {
-            return result.IsSuccess ? onSuccess($"{uri}/{result.Value}", result.Value) : ApiResponses.Problem(result);
-        }
     }
 }

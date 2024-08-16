@@ -29,7 +29,7 @@ internal sealed class PublishEventCommandHandler(
 
         if (!await ticketRepository.ExistsAsync(eventEntity.Id, cancellationToken))
         {
-            return Result.Failure(EventErrors.NoTicketsFound);
+            return Result.Failure(EventErrors.NoTicketTypesFound);
         }
 
         var result = eventEntity.Publish();

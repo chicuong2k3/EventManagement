@@ -1,6 +1,8 @@
 ﻿using EventManagement.Common.Application.Caching;
 using EventManagement.Common.Application.Data;
 using EventManagement.Common.Application.EventBuses;
+using EventManagement.Common.Infrastructure.Authentication;
+using EventManagement.Common.Infrastructure.Authorization;
 using EventManagement.Common.Infrastructure.Caching;
 using EventManagement.Common.Infrastructure.Dapper;
 using EventManagement.Common.Infrastructure.EventBuses;
@@ -21,6 +23,11 @@ namespace EventManagement.Common.Infrastructure
             string dbConnectionString,
             string cacheConnectionString)
         {
+            // Authentication
+            services.AddAuthenticationInfrastructure();
+
+            // Authorization
+            services.AddAuthorizationInternal();
 
             // Dapper
             var dataSource = new NpgsqlDataSourceBuilder(dbConnectionString).Build();
@@ -66,6 +73,7 @@ namespace EventManagement.Common.Infrastructure
 
                 
             });
+
 
             return services;
         }

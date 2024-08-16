@@ -1,6 +1,4 @@
-﻿using EventManagement.Api.Constants;
-
-namespace EventManagement.Api.Endpoints.UserEndpoints;
+﻿namespace EventManagement.Api.Endpoints.UserEndpoints;
 
 internal sealed record RegisterUserRequest(
     string Email,
@@ -22,7 +20,7 @@ public sealed class RegisterUserEndpoint : ICarterModule
 
             var response = await sender.Send(command);
 
-            return response.Match(Results.Created, $"/users");
+            return response.Match(Results.Ok);
 
         })
         .AllowAnonymous()

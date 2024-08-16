@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Users.Application.UseCases.Users;
+﻿using EventManagement.Users.Application.Abstractions.Identity;
+
+namespace EventManagement.Users.Application.UseCases.Users;
 
 public sealed record RegisterUserCommand(
     string Email,
@@ -28,14 +30,25 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
 }
 internal sealed class RegisterUserCommandHandler(
     IUserRepository userRepository,
-    IUnitOfWork unitOfWork)
+    IUnitOfWork unitOfWork,
+    IIdentityProviderService identityProviderService)
     : ICommandHandler<RegisterUserCommand, Guid>
 {
     public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
     {
-        // Validate duplicate email
+        var result = await identityProviderService.RegisterUserAsync(
+            command.Email,
+            command.Password,
+            command.FirstName,
+            command.LastName,
+            cancellationToken);
 
-        var user = User.Create(command.Email, command.FirstName, command.LastName);
+        if (result.IsFailure)
+        {
+            return Result.Failure<Guid>(result.Error);
+        }
+
+        var user = User.Create(command.Email, command.FirstName, command.LastName, result.Value);
 
         userRepository.Insert(user);
 

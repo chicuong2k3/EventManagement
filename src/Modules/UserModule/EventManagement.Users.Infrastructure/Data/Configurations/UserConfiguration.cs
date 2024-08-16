@@ -22,6 +22,9 @@ namespace EventManagement.Users.Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasMaxLength(100);
 
+            builder.HasIndex(x => x.IdentityId)
+                .IsUnique();
+
         }
     }
 }

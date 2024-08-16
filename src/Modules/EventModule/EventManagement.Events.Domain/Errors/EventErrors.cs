@@ -14,9 +14,9 @@
             "EventEntity.EndDatePrecedesStartDate",
             "The event end date precedes the start date");
 
-        public static readonly Error NoTicketsFound = Error.Problem(
-            "EventEntity.NoTicketsFound",
-            "The event does not have any tickets defined");
+        public static readonly Error NoTicketTypesFound = Error.Problem(
+            "EventEntity.NoTicketTypesFound",
+            "The event does not have any ticket types defined");
 
         public static readonly Error NotDraft = Error.Problem(
             "EventEntities.NotDraft",

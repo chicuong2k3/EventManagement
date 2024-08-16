@@ -4,6 +4,7 @@ namespace EventManagement.Users.Domain.Entities
 {
     public sealed class User : Entity
     {
+        private readonly List<Role> roles = [];
         private User()
         {
 
@@ -12,15 +13,21 @@ namespace EventManagement.Users.Domain.Entities
         public string Email { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
-        public static User Create(string email, string firstName, string lastName)
+        public string IdentityId { get; private set; }
+
+        public IReadOnlyCollection<Role> Roles => roles.ToList();
+        public static User Create(string email, string firstName, string lastName, string identityId)
         {
             var user = new User
             {
                 Id = Guid.NewGuid(),
                 Email = email,
                 FirstName = firstName,
-                LastName = lastName
+                LastName = lastName,
+                IdentityId = identityId
             };
+
+            user.roles.Add(Role.Member);
 
             user.Raise(new UserRegisteredDomainEvent(user.Id));
 

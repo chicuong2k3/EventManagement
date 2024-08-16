@@ -11,7 +11,12 @@ using EventManagement.Ticketing.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Configuration.AddJsonFile($"file-name", false, true);
+var modules = new List<string>() { "users" };
+foreach (string module in modules)
+{
+    builder.Configuration.AddJsonFile($"modules.{module}.json", false, true);
+    builder.Configuration.AddJsonFile($"modules.{module}.Development.json", true, true);
+}
 
 // Add Logging
 builder.Host.UseSerilog((context, loggerConfig) =>
@@ -32,7 +37,10 @@ var cacheConnectionString = builder.Configuration.GetConnectionString("Cache")!;
 // Add Health Checks
 builder.Services.AddHealthChecks()
     .AddNpgSql(dbConnectionString)
-    .AddRedis(cacheConnectionString);
+    .AddRedis(cacheConnectionString)
+    .AddUrlGroup(new Uri(builder.Configuration.GetValue<string>("KeyCloak:HealthUrl")!), 
+    HttpMethod.Get, 
+    "key-cloak");
 
 // Add Module's Services
 builder.Services.AddCommonApplication([
@@ -46,7 +54,7 @@ builder.Services.AddCommonApplication([
     cacheConnectionString
 )
 .AddEventsInfrastructure(dbConnectionString)
-.AddUsersInfrastructure(dbConnectionString)
+.AddUsersInfrastructure(builder.Configuration)
 .AddTicketingInfrastructure(dbConnectionString);
 
 
@@ -58,7 +66,8 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 
-
+// CORS
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -69,6 +78,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(options =>
+{
+    options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5173");
+});
 
 // this must be come before Health Checks
 app.MapCarter();
@@ -81,5 +95,8 @@ app.MapHealthChecks("health", new HealthCheckOptions()
 app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
