@@ -17,6 +17,7 @@ namespace EventManagement.Common.Application
                 config.AddOpenBehavior(typeof(RequestLoggingBehaviour<,>));
                 config.AddOpenBehavior(typeof(ExceptionHandlingBehaviour<,>));
                 config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+                config.AddOpenBehavior(typeof(QueryCachingBehaviour<,>));
             });
 
             services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);

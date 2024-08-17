@@ -1,0 +1,10 @@
+﻿global using EventManagement.Attendance.Domain.Attendees;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using EventManagement.Attendance.Application.Abstractions.Authentication;
+global using EventManagement.Common.Application.Exceptions;
+global using Microsoft.AspNetCore.Http;
+global using EventManagement.Attendance.Application.Abstractions.Data;
+global using EventManagement.Attendance.Domain.Events;
+global using EventManagement.Attendance.Domain.Tickets;
+global using System.Reflection;
