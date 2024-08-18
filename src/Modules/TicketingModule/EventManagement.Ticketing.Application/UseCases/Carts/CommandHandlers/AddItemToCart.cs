@@ -1,6 +1,4 @@
-﻿using EventManagement.Events.PublicApi;
-
-namespace EventManagement.Ticketing.Application.UseCases.Carts.CommandHandlers;
+﻿namespace EventManagement.Ticketing.Application.UseCases.Carts.CommandHandlers;
 
 public sealed record AddItemToCartCommand(
     Guid CustomerId,
@@ -25,7 +23,7 @@ internal sealed class AddItemToCartCommandValidator : AbstractValidator<AddItemT
 internal sealed class AddItemToCartCommandHandler(
     CartService cartService,
     ICustomerRepository customerRepository,
-    IEventsApi ticketsApi)
+    ITicketTypeRepository ticketTypeRepository)
     : ICommandHandler<AddItemToCartCommand>
 {
     public async Task<Result> Handle(AddItemToCartCommand command, CancellationToken cancellationToken)
@@ -36,7 +34,7 @@ internal sealed class AddItemToCartCommandHandler(
             return Result.Failure(CustomerErrors.NotFound(command.CustomerId));
         }
 
-        var ticketType = await ticketsApi.GetTicketTypeAsync(command.TicketTypeId, cancellationToken);
+        var ticketType = await ticketTypeRepository.GetByIdAsync(command.TicketTypeId, cancellationToken);
         if (ticketType == null)
         {
             return Result.Failure(TicketTypeErrors.NotFound(command.TicketTypeId));

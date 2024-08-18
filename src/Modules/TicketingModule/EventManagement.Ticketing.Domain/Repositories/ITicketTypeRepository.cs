@@ -6,6 +6,7 @@ namespace EventManagement.Ticketing.Domain.Repositories
     {
         Task<TicketType?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         Task<TicketType?> GetByIdWithLockAsync(Guid id, CancellationToken cancellationToken = default);
+        void Insert(TicketType ticket);
         void InsertRange(IEnumerable<TicketType> ticketTypes);
     }
 }

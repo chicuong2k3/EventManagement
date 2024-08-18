@@ -9,6 +9,6 @@ namespace EventManagement.Events.Domain.Repositories
 
         Task<bool> ExistsAsync(Guid eventId, CancellationToken cancellationToken = default);
 
-        void Insert(TicketType ticket);
+        void Insert(TicketType ticketType);
     }
 }

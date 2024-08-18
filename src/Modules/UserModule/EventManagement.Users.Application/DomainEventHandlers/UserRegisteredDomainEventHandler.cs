@@ -12,7 +12,7 @@ namespace EventManagement.Users.Application.DomainEventHandlers
     {
         public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
         {
-                var result = await sender.Send(new GetUserByIdQuery(notification.UserId), cancellationToken);
+            var result = await sender.Send(new GetUserByIdQuery(notification.UserId), cancellationToken);
 
             if (result.IsFailure)
             {
