@@ -1,10 +1,13 @@
 ﻿using EventManagement.ArchitectureTests.Abstractions;
+using EventManagement.Events.Domain.Events;
+using EventManagement.Ticketing.Domain.Tickets;
+using EventManagement.Users.Domain.Users;
 using NetArchTest.Rules;
 using System.Reflection;
 
 namespace EventManagement.ArchitectureTests.Layers
 {
-    
+
     public class ModuleTests : TestBase
     {
         [Fact]
@@ -18,7 +21,7 @@ namespace EventManagement.ArchitectureTests.Layers
             ];
 
             List<Assembly> usersAssemblies = [
-                typeof(Users.Domain.Entities.User).Assembly,
+                typeof(User).Assembly,
                 Users.Application.AssemblyReference.Assembly,
                 typeof(Users.Infrastructure.DependencyInjection).Assembly
             ];
@@ -41,7 +44,7 @@ namespace EventManagement.ArchitectureTests.Layers
             ];
 
             List<Assembly> ticketingAssemblies = [
-                typeof(Ticketing.Domain.Entities.Ticket).Assembly,
+                typeof(Ticket).Assembly,
                 Ticketing.Application.AssemblyReference.Assembly,
                 typeof(Ticketing.Infrastructure.DependencyInjection).Assembly
             ];
@@ -64,7 +67,7 @@ namespace EventManagement.ArchitectureTests.Layers
             ];
 
             List<Assembly> eventsAssemblies = [
-                typeof(Events.Domain.Entities.EventEntity).Assembly,
+                typeof(EventEntity).Assembly,
                 Events.Application.AssemblyReference.Assembly,
                 typeof(Events.Infrastructure.DependencyInjection).Assembly
             ];

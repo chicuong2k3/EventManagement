@@ -1,4 +1,4 @@
-﻿using EventManagement.Common.Domain.DomainEvents;
+﻿using EventManagement.Common.Domain;
 
 namespace EventManagement.Attendance.Domain.Events;
 
@@ -8,7 +8,7 @@ public sealed class EventCreatedDomainEvent(
     string description,
     string location,
     DateTime startsAt,
-    DateTime? endsAt) : DomainEventBase
+    DateTime? endsAt) : DomainEvent
 {
     public Guid EventId { get; init; } = eventId;
 

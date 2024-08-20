@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Api.Endpoints.CategoryEndpoints;
+﻿using EventManagement.Events.Application.Categories.UpdateCategory;
+
+namespace EventManagement.Api.Endpoints.CategoryEndpoints;
 
 internal sealed record UpdateCategoryRequest(
     string Name

@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Api.Endpoints.TicketTypeEndpoints;
+﻿using EventManagement.Events.Application.TicketTypes.CreateTicketType;
+
+namespace EventManagement.Api.Endpoints.TicketTypeEndpoints;
 
 internal sealed record CreateTicketTypeRequest(
     Guid EventId,

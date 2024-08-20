@@ -2,6 +2,7 @@
 using EventManagement.Events.Infrastructure.Data;
 using EventManagement.Users.Infrastructure.Data;
 using EventManagement.Ticketing.Infrastructure.Data;
+using EventManagement.Attendance.Infrastructure.Data;
 
 namespace EventManagement.Api.Extensions
 {
@@ -14,6 +15,7 @@ namespace EventManagement.Api.Extensions
                 ApplyMigration<EventsDbContext>(scope);
                 ApplyMigration<UsersDbContext>(scope);
                 ApplyMigration<TicketingDbContext>(scope);
+                ApplyMigration<AttendanceDbContext>(scope);
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using EventManagement.Common.Domain;
-using EventManagement.Common.Domain.DomainEvents;
 using EventManagement.Users.ArchitectureTests.Abstractions;
 using FluentAssertions;
 using NetArchTest.Rules;

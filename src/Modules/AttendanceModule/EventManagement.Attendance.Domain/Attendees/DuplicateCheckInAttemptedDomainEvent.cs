@@ -1,9 +1,9 @@
-﻿using EventManagement.Common.Domain.DomainEvents;
+﻿using EventManagement.Common.Domain;
 
 namespace EventManagement.Attendance.Domain.Attendees;
 
 public sealed class DuplicateCheckInAttemptedDomainEvent(Guid attendeeId, Guid eventId, Guid ticketId, string ticketCode)
-    : DomainEventBase
+    : DomainEvent
 {
     public Guid AttendeeId { get; init; } = attendeeId;
 

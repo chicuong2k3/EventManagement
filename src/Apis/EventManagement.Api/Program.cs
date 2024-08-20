@@ -8,10 +8,11 @@ using EventManagement.Events.Infrastructure;
 using EventManagement.Users.Infrastructure;
 using EventManagement.Api.Extensions;
 using EventManagement.Ticketing.Infrastructure;
+using EventManagement.Attendance.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var modules = new List<string>() { "users" };
+List<string> modules = ["users", "events", "ticketing", "attendance"];
 foreach (string module in modules)
 {
     builder.Configuration.AddJsonFile($"modules.{module}.json", false, true);
@@ -46,16 +47,18 @@ builder.Services.AddHealthChecks()
 builder.Services.AddCommonApplication([
     EventManagement.Events.Application.AssemblyReference.Assembly,
     EventManagement.Users.Application.AssemblyReference.Assembly,
-    EventManagement.Ticketing.Application.AssemblyReference.Assembly
+    EventManagement.Ticketing.Application.AssemblyReference.Assembly,
+    EventManagement.Attendance.Application.AssemblyReference.Assembly
 ])
 .AddCommonInfrastructure(
     [EventManagement.Ticketing.Infrastructure.DependencyInjection.ConfigureConsumers], 
     dbConnectionString, 
     cacheConnectionString
 )
-.AddEventsInfrastructure(dbConnectionString)
+.AddEventsInfrastructure(builder.Configuration)
 .AddUsersInfrastructure(builder.Configuration)
-.AddTicketingInfrastructure(dbConnectionString);
+.AddTicketingInfrastructure(builder.Configuration)
+.AddAttendanceInfrastructure(builder.Configuration);
 
 
 // Add Carter

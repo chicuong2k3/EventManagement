@@ -1,4 +1,8 @@
-﻿using EventManagement.Events.Application.Abstractions.Data;
+﻿using EventManagement.Common.Infrastructure.Outbox;
+using EventManagement.Events.Application.Abstractions.Data;
+using EventManagement.Events.Domain.Categories;
+using EventManagement.Events.Domain.Events;
+using EventManagement.Events.Domain.TicketTypes;
 
 
 namespace EventManagement.Events.Infrastructure.Data
@@ -12,17 +16,16 @@ namespace EventManagement.Events.Infrastructure.Data
 
             modelBuilder.HasDefaultSchema(Schemas.Events);
 
+            modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
+            modelBuilder.ApplyConfiguration(new OutboxMessageConsumerConfiguration());
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-
-        public async Task CommitAsync(CancellationToken cancellationToken = default)
-        {
-            await SaveChangesAsync(cancellationToken);
-        }
-
         internal DbSet<EventEntity> Events { get; set; }
         internal DbSet<Category> Categories { get; set; }
         internal DbSet<TicketType> TicketTypes { get; set; }
+
+        
     }
 
 }

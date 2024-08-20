@@ -1,7 +1,4 @@
-﻿using EventManagement.Attendance.Application.Abstractions.Data;
-using EventManagement.Attendance.Domain.Events;
-
-namespace EventManagement.Attendance.Application.Events;
+﻿namespace EventManagement.Attendance.Application.Events;
 
 public sealed record CreateEventCommand(
     Guid EventId,

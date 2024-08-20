@@ -23,7 +23,60 @@ namespace EventManagement.Users.Infrastructure.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("EventManagement.Users.Domain.Entities.Permission", b =>
+            modelBuilder.Entity("EventManagement.Common.Infrastructure.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("jsonb")
+                        .HasColumnName("content");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("text")
+                        .HasColumnName("error");
+
+                    b.Property<DateTime>("OccurredOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<DateTime?>("ProcessedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("processed_on");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_outbox_messages");
+
+                    b.ToTable("outbox_messages", "users");
+                });
+
+            modelBuilder.Entity("EventManagement.Common.Infrastructure.Outbox.OutboxMessageConsumer", b =>
+                {
+                    b.Property<Guid>("OutboxMessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("outbox_message_id");
+
+                    b.Property<string>("HandlerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("handler_name");
+
+                    b.HasKey("OutboxMessageId", "HandlerName")
+                        .HasName("pk_outbox_message_consumers");
+
+                    b.ToTable("outbox_message_consumers", "users");
+                });
+
+            modelBuilder.Entity("EventManagement.Users.Domain.Users.Permission", b =>
                 {
                     b.Property<string>("Code")
                         .HasMaxLength(100)
@@ -106,7 +159,7 @@ namespace EventManagement.Users.Infrastructure.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EventManagement.Users.Domain.Entities.Role", b =>
+            modelBuilder.Entity("EventManagement.Users.Domain.Users.Role", b =>
                 {
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -129,7 +182,7 @@ namespace EventManagement.Users.Infrastructure.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EventManagement.Users.Domain.Entities.User", b =>
+            modelBuilder.Entity("EventManagement.Users.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -355,14 +408,14 @@ namespace EventManagement.Users.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("PermissionRole", b =>
                 {
-                    b.HasOne("EventManagement.Users.Domain.Entities.Permission", null)
+                    b.HasOne("EventManagement.Users.Domain.Users.Permission", null)
                         .WithMany()
                         .HasForeignKey("PermissionCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_role_permissions_permissions_permission_code");
 
-                    b.HasOne("EventManagement.Users.Domain.Entities.Role", null)
+                    b.HasOne("EventManagement.Users.Domain.Users.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleName")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -372,14 +425,14 @@ namespace EventManagement.Users.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("RoleUser", b =>
                 {
-                    b.HasOne("EventManagement.Users.Domain.Entities.Role", null)
+                    b.HasOne("EventManagement.Users.Domain.Users.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_roles_roles_roles_name");
 
-                    b.HasOne("EventManagement.Users.Domain.Entities.User", null)
+                    b.HasOne("EventManagement.Users.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

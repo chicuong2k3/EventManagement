@@ -1,9 +1,8 @@
 ﻿global using EventManagement.Common.Application.Messaging;
-global using EventManagement.Common.Domain.Results;
 global using FluentValidation;
-global using EventManagement.Ticketing.Application.Abstractions.Data;
-global using EventManagement.Ticketing.Domain.Repositories;
-global using EventManagement.Ticketing.Domain.Errors;
 global using MassTransit;
 global using EventManagement.Ticketing.Application.Services;
-global using EventManagement.Ticketing.Domain.Entities;
+global using EventManagement.Common.Application.Data;
+global using EventManagement.Common.Domain;
+global using EventManagement.Ticketing.Domain.Customers;
+global using EventManagement.Ticketing.Application.Abstractions.Data;

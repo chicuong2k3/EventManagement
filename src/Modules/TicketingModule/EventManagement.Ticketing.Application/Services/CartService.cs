@@ -1,5 +1,5 @@
 ﻿using EventManagement.Common.Application.Caching;
-using EventManagement.Ticketing.Application.UseCases.Carts;
+using EventManagement.Ticketing.Application.Carts;
 
 namespace EventManagement.Ticketing.Application.Services
 {

@@ -1,5 +1,5 @@
 ﻿using EventManagement.Common.Application.Caching;
-using EventManagement.Common.Domain.Results;
+using EventManagement.Common.Domain;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

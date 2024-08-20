@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Api.Endpoints.EventEndpoints;
+﻿using EventManagement.Events.Application.Events.RescheduleEvent;
+
+namespace EventManagement.Api.Endpoints.EventEndpoints;
 
 internal sealed record RescheduleEventRequest(
     DateTime StartsAt,

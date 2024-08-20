@@ -1,4 +1,4 @@
-﻿using EventManagement.Attendance.Infrastructure.Database;
+﻿using EventManagement.Attendance.Infrastructure.Data;
 
 namespace EventManagement.Attendance.Infrastructure.Tickets;
 

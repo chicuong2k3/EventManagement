@@ -1,6 +1,9 @@
-﻿namespace EventManagement.Attendance.Application.Abstractions.Data;
+﻿using System.Data.Common;
 
-public interface IUnitOfWork
+namespace EventManagement.Attendance.Application.Abstractions.Data
 {
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    public interface IUnitOfWork
+    {
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    }
 }

@@ -1,4 +1,4 @@
-﻿using EventManagement.Ticketing.Application.UseCases.Orders;
+﻿using EventManagement.Ticketing.Application.Orders;
 
 namespace EventManagement.Api.Endpoints.OrderEndpoints;
 public sealed class GetOrderByIdEndpoint : ICarterModule

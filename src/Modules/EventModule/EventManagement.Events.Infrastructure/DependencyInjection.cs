@@ -1,8 +1,17 @@
-﻿using EventManagement.Common.Infrastructure.Interceptors;
+﻿using EventManagement.Common.Application.Messaging;
+using EventManagement.Common.Infrastructure.Outbox;
 using EventManagement.Events.Application.Abstractions.Data;
-using EventManagement.Events.Infrastructure.Repositories;
+using EventManagement.Events.Domain.Categories;
+using EventManagement.Events.Domain.Events;
+using EventManagement.Events.Domain.TicketTypes;
+using EventManagement.Events.Infrastructure.Categories;
+using EventManagement.Events.Infrastructure.Events;
+using EventManagement.Events.Infrastructure.Outbox;
+using EventManagement.Events.Infrastructure.TicketTypes;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace EventManagement.Events.Infrastructure
 {
@@ -10,10 +19,15 @@ namespace EventManagement.Events.Infrastructure
     {
         public static IServiceCollection AddEventsInfrastructure(
             this IServiceCollection services,
-            string dbConnectionString)
+            IConfiguration configuration)
         {
+            // Background Jobs
+            services.Configure<OutboxOptions>(configuration.GetSection("Events:Outbox"));
+
+            services.ConfigureOptions<ConfigureProcessOutboxJob>();
 
             // Entity Framework Core
+            string dbConnectionString = configuration.GetConnectionString("Database")!;
             services.AddDbContext<EventsDbContext>((serviceProvider, options) =>
             {
                 options.UseNpgsql(dbConnectionString, sqlOptions =>
@@ -21,7 +35,7 @@ namespace EventManagement.Events.Infrastructure
                     sqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Events);
                 })
                 .UseSnakeCaseNamingConvention()
-                .AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>());
+                .AddInterceptors(serviceProvider.GetRequiredService<InsertOutboxMessagesInterceptor>());
             });
 
             services.AddScoped<IEventRepository, EventRepository>();
@@ -35,8 +49,35 @@ namespace EventManagement.Events.Infrastructure
             });
 
 
+            services.AddDomainEventHanlers();
+
 
             return services;
+        }
+
+        private static void AddDomainEventHanlers(this IServiceCollection services)
+        {
+            var domainEventHandlers = Application.AssemblyReference.Assembly.GetTypes()
+                .Where(type => type.IsAssignableTo(typeof(IDomainEventHandler)))
+                .ToArray();
+
+            foreach (var domainEventHandler in domainEventHandlers)
+            {
+                services.TryAddScoped(domainEventHandler);
+
+                var domainEvent = domainEventHandler
+                    .GetInterfaces()
+                    .Single(x => x.IsGenericType)
+                    .GetGenericArguments()
+                    .Single();
+
+                var closedIdempotentDomainEventHandler = typeof(IdempotentDomainEventHandler<>)
+                    .MakeGenericType(domainEvent);
+
+                services.Decorate(domainEventHandler, closedIdempotentDomainEventHandler);
+            }
+
+
         }
     }
 }

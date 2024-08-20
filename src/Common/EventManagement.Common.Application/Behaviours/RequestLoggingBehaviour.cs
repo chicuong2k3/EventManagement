@@ -1,4 +1,4 @@
-﻿using EventManagement.Common.Domain.Results;
+﻿using EventManagement.Common.Domain;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;

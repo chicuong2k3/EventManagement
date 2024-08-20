@@ -1,4 +1,4 @@
-﻿using EventManagement.Ticketing.Application.UseCases.Customers;
+﻿using EventManagement.Ticketing.Application.Tickets;
 
 namespace EventManagement.Api.Endpoints.TicketEndpoints;
 public sealed class GetTicketsForOrderEndpoint : ICarterModule

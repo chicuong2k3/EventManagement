@@ -1,0 +1,8 @@
+{
+  "Ticketing": {
+    "Outbox": {
+      "IntervalInSeconds": 25,
+      "BatchSize": 10
+    }
+  }
+}

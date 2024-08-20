@@ -1,4 +1,8 @@
-﻿
+﻿using EventManagement.Common.Infrastructure.Outbox;
+using EventManagement.Users.Application.Abstractions.Data;
+using EventManagement.Users.Domain.Users;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Data.Common;
 
 namespace EventManagement.Users.Infrastructure.Data
 {
@@ -11,17 +15,17 @@ namespace EventManagement.Users.Infrastructure.Data
 
             modelBuilder.HasDefaultSchema(Schemas.Users);
 
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
+            modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
+            modelBuilder.ApplyConfiguration(new OutboxMessageConsumerConfiguration());
 
-        public async Task CommitAsync(CancellationToken cancellationToken = default)
-        {
-            await SaveChangesAsync(cancellationToken);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         internal DbSet<User> Users { get; set; }
         internal DbSet<Role> Roles { get; set; }
         internal DbSet<Permission> Permissions { get; set; }
+
+
     }
 
 }

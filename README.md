@@ -7,4 +7,4 @@
 - Implement user registration and authentication with JWT.
 - Implement role-based access control.
 - Cache with Redis.
-- Implement messaging reliability with RabbitMQ using the outbox and inbox patterns.
+- Implement messaging reliability using the outbox and inbox patterns.

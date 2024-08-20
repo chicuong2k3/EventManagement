@@ -1,5 +1,7 @@
 ﻿
 
+using EventManagement.Common.Domain;
+
 namespace EventManagement.Attendance.Application.Tickets.CreateTicket;
 
 public sealed record CreateTicketCommand(Guid TicketId, Guid AttendeeId, Guid EventId, string Code) : ICommand;

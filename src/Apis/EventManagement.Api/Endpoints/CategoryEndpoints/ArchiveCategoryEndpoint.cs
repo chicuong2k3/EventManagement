@@ -1,4 +1,6 @@
 ﻿
+using EventManagement.Events.Application.Categories.ArchiveCategory;
+
 namespace EventManagement.Api.Endpoints.CategoryEndpoints;
 
 public sealed class ArchiveCategoryEndpoint : ICarterModule

@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Api.Endpoints.EventEndpoints;
+﻿using EventManagement.Events.Application.Events.CancelEvent;
+
+namespace EventManagement.Api.Endpoints.EventEndpoints;
 
 public sealed class CancelEventEndpoint : ICarterModule
 {

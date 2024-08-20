@@ -1,11 +1,16 @@
-﻿using EventManagement.Common.Infrastructure.Interceptors;
+﻿using EventManagement.Common.Application.Messaging;
+using EventManagement.Common.Infrastructure.Outbox;
+using EventManagement.Users.Application.Abstractions.Data;
 using EventManagement.Users.Application.Abstractions.Identity;
+using EventManagement.Users.Domain.Users;
 using EventManagement.Users.Infrastructure.Authorization;
 using EventManagement.Users.Infrastructure.Identity;
-using EventManagement.Users.Infrastructure.Repositories;
+using EventManagement.Users.Infrastructure.Outbox;
+using EventManagement.Users.Infrastructure.Users;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace EventManagement.Users.Infrastructure
@@ -16,6 +21,11 @@ namespace EventManagement.Users.Infrastructure
             this IServiceCollection services,
             IConfiguration configuration)
         {
+            // Background Jobs
+            services.Configure<OutboxOptions>(configuration.GetSection("Users:Outbox"));
+            
+            services.ConfigureOptions<ConfigureProcessOutboxJob>();
+
             // KeyCloak
             services.Configure<KeyCloakOptions>(configuration.GetSection("Users:KeyCloak"));
 
@@ -44,7 +54,7 @@ namespace EventManagement.Users.Infrastructure
                     sqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Users);
                 })
                 .UseSnakeCaseNamingConvention()
-                .AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>());
+                .AddInterceptors(serviceProvider.GetRequiredService<InsertOutboxMessagesInterceptor>());
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
@@ -56,8 +66,38 @@ namespace EventManagement.Users.Infrastructure
             });
 
 
+            services.AddDomainEventHanlers();
+
 
             return services;
         }
+
+
+        private static void AddDomainEventHanlers(this IServiceCollection services)
+        {
+            var domainEventHandlers = Application.AssemblyReference.Assembly.GetTypes()
+                .Where(type => type.IsAssignableTo(typeof(IDomainEventHandler)))
+                .ToArray();
+
+            foreach (var domainEventHandler in domainEventHandlers)
+            {
+                services.TryAddScoped(domainEventHandler);
+
+                var domainEvent = domainEventHandler
+                    .GetInterfaces()
+                    .Single(x => x.IsGenericType)
+                    .GetGenericArguments()
+                    .Single();
+
+                var closedIdempotentDomainEventHandler = typeof(IdempotentDomainEventHandler<>)
+                    .MakeGenericType(domainEvent);
+
+                services.Decorate(domainEventHandler, closedIdempotentDomainEventHandler);
+            }
+
+
+        }
+
+
     }
 }

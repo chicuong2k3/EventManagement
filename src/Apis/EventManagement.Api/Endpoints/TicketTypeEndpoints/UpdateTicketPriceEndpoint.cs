@@ -1,4 +1,6 @@
 ﻿
+using EventManagement.Events.Application.TicketTypes.UpdateTicketTypePrice;
+
 namespace EventManagement.Api.Endpoints.TicketTypeEndpoints;
 
 public sealed record UpdateTicketTypePriceRequest(

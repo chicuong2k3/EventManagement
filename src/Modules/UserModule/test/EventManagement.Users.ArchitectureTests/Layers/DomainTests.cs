@@ -1,9 +1,5 @@
-﻿using EventManagement.Common.Domain;
-using EventManagement.Common.Domain.DomainEvents;
-using EventManagement.Users.ArchitectureTests.Abstractions;
-using FluentAssertions;
+﻿using EventManagement.Users.ArchitectureTests.Abstractions;
 using NetArchTest.Rules;
-using System.Reflection;
 
 namespace EventManagement.Users.ArchitectureTests.Layers
 {

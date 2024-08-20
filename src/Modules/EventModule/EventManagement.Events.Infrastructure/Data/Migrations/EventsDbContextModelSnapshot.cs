@@ -23,7 +23,60 @@ namespace EventManagement.Events.Infrastructure.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("EventManagement.Events.Domain.Entities.Category", b =>
+            modelBuilder.Entity("EventManagement.Common.Infrastructure.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("jsonb")
+                        .HasColumnName("content");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("text")
+                        .HasColumnName("error");
+
+                    b.Property<DateTime>("OccurredOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<DateTime?>("ProcessedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("processed_on");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_outbox_messages");
+
+                    b.ToTable("outbox_messages", "events");
+                });
+
+            modelBuilder.Entity("EventManagement.Common.Infrastructure.Outbox.OutboxMessageConsumer", b =>
+                {
+                    b.Property<Guid>("OutboxMessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("outbox_message_id");
+
+                    b.Property<string>("HandlerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("handler_name");
+
+                    b.HasKey("OutboxMessageId", "HandlerName")
+                        .HasName("pk_outbox_message_consumers");
+
+                    b.ToTable("outbox_message_consumers", "events");
+                });
+
+            modelBuilder.Entity("EventManagement.Events.Domain.Categories.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +98,7 @@ namespace EventManagement.Events.Infrastructure.Data.Migrations
                     b.ToTable("categories", "events");
                 });
 
-            modelBuilder.Entity("EventManagement.Events.Domain.Entities.EventEntity", b =>
+            modelBuilder.Entity("EventManagement.Events.Domain.Events.EventEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -94,7 +147,7 @@ namespace EventManagement.Events.Infrastructure.Data.Migrations
                     b.ToTable("events", "events");
                 });
 
-            modelBuilder.Entity("EventManagement.Events.Domain.Entities.TicketType", b =>
+            modelBuilder.Entity("EventManagement.Events.Domain.TicketTypes.TicketType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,9 +187,9 @@ namespace EventManagement.Events.Infrastructure.Data.Migrations
                     b.ToTable("ticket_types", "events");
                 });
 
-            modelBuilder.Entity("EventManagement.Events.Domain.Entities.EventEntity", b =>
+            modelBuilder.Entity("EventManagement.Events.Domain.Events.EventEntity", b =>
                 {
-                    b.HasOne("EventManagement.Events.Domain.Entities.Category", null)
+                    b.HasOne("EventManagement.Events.Domain.Categories.Category", null)
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -144,9 +197,9 @@ namespace EventManagement.Events.Infrastructure.Data.Migrations
                         .HasConstraintName("fk_events_categories_category_id");
                 });
 
-            modelBuilder.Entity("EventManagement.Events.Domain.Entities.TicketType", b =>
+            modelBuilder.Entity("EventManagement.Events.Domain.TicketTypes.TicketType", b =>
                 {
-                    b.HasOne("EventManagement.Events.Domain.Entities.EventEntity", null)
+                    b.HasOne("EventManagement.Events.Domain.Events.EventEntity", null)
                         .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)

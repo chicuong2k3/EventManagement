@@ -1,6 +1,5 @@
 ﻿using EventManagement.Attendance.Domain.Tickets;
 using EventManagement.Common.Domain;
-using EventManagement.Common.Domain.Results;
 
 namespace EventManagement.Attendance.Domain.Attendees;
 

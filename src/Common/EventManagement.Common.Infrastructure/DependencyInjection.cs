@@ -4,13 +4,14 @@ using EventManagement.Common.Application.EventBuses;
 using EventManagement.Common.Infrastructure.Authentication;
 using EventManagement.Common.Infrastructure.Authorization;
 using EventManagement.Common.Infrastructure.Caching;
-using EventManagement.Common.Infrastructure.Dapper;
+using EventManagement.Common.Infrastructure.Data;
 using EventManagement.Common.Infrastructure.EventBuses;
-using EventManagement.Common.Infrastructure.Interceptors;
+using EventManagement.Common.Infrastructure.Outbox;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
+using Quartz;
 using StackExchange.Redis;
 
 namespace EventManagement.Common.Infrastructure
@@ -23,6 +24,14 @@ namespace EventManagement.Common.Infrastructure
             string dbConnectionString,
             string cacheConnectionString)
         {
+            // Background Jobs
+            services.AddQuartz();
+            services.AddQuartzHostedService(options =>
+            {
+                options.WaitForJobsToComplete = true;
+            });
+
+
             // Authentication
             services.AddAuthenticationInfrastructure();
 
@@ -53,7 +62,7 @@ namespace EventManagement.Common.Infrastructure
             }
 
             // Interceptors
-            services.TryAddSingleton<PublishDomainEventsInterceptor>();
+            services.TryAddSingleton<InsertOutboxMessagesInterceptor>();
 
             // Messaging
             services.TryAddSingleton<IEventBus, EventBus>();

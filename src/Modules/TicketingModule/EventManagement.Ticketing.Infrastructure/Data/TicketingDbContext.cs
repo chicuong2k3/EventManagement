@@ -1,6 +1,13 @@
 ﻿using System.Data.Common;
 using System.Reflection;
+using EventManagement.Common.Infrastructure.Outbox;
 using EventManagement.Ticketing.Application.Abstractions.Data;
+using EventManagement.Ticketing.Domain.Customers;
+using EventManagement.Ticketing.Domain.Events;
+using EventManagement.Ticketing.Domain.Orders;
+using EventManagement.Ticketing.Domain.Payments;
+using EventManagement.Ticketing.Domain.Tickets;
+using EventManagement.Ticketing.Domain.TicketTypes;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EventManagement.Ticketing.Infrastructure.Data;
@@ -24,6 +31,9 @@ public sealed class TicketingDbContext(DbContextOptions<TicketingDbContext> opti
     {
         modelBuilder.HasDefaultSchema(Schemas.Ticketing);
 
+        modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
+        modelBuilder.ApplyConfiguration(new OutboxMessageConsumerConfiguration());
+
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
@@ -36,9 +46,5 @@ public sealed class TicketingDbContext(DbContextOptions<TicketingDbContext> opti
 
         return (await Database.BeginTransactionAsync(cancellationToken)).GetDbTransaction();
     }
-    
-    public async Task CommitAsync(CancellationToken cancellationToken = default)
-    {
-        await SaveChangesAsync(cancellationToken);
-    }
+
 }

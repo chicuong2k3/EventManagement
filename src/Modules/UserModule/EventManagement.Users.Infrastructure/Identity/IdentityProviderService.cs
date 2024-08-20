@@ -1,4 +1,4 @@
-﻿using EventManagement.Common.Domain.Results;
+﻿using EventManagement.Common.Domain;
 using EventManagement.Users.Application.Abstractions.Identity;
 using Microsoft.Extensions.Logging;
 using System.Net;

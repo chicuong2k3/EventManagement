@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Api.Endpoints.UserEndpoints;
+﻿using EventManagement.Users.Application.Users.RegisterUser;
+
+namespace EventManagement.Api.Endpoints.UserEndpoints;
 
 internal sealed record RegisterUserRequest(
     string Email,

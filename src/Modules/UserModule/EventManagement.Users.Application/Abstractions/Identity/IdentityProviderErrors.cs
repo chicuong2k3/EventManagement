@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Users.Application.Abstractions.Identity;
+﻿using EventManagement.Common.Domain;
+
+namespace EventManagement.Users.Application.Abstractions.Identity;
 
 public class IdentityProviderErrors
 {

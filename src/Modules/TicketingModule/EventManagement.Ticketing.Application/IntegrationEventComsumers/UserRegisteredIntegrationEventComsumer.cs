@@ -1,7 +1,7 @@
 ﻿
 
 using EventManagement.Common.Application.Exceptions;
-using EventManagement.Ticketing.Application.UseCases.Customers;
+using EventManagement.Ticketing.Application.Customers;
 using EventManagement.Users.IntegrationEvents;
 using MediatR;
 

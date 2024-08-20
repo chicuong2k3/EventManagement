@@ -1,4 +1,4 @@
-﻿using EventManagement.Ticketing.Application.UseCases.Carts.CommandHandlers;
+﻿using EventManagement.Ticketing.Application.Carts.CommandHandlers;
 
 namespace EventManagement.Api.Endpoints.CartEndpoints;
 

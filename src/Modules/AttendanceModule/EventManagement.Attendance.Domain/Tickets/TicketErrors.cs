@@ -1,4 +1,4 @@
-﻿using EventManagement.Common.Domain.Results;
+﻿using EventManagement.Common.Domain;
 
 namespace EventManagement.Attendance.Domain.Tickets;
 

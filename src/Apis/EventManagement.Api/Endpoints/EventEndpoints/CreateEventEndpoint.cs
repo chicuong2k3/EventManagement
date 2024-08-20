@@ -1,4 +1,8 @@
-﻿namespace EventManagement.Api.Endpoints.EventEndpoints;
+﻿
+
+using EventManagement.Events.Application.Events.CreateEvent;
+
+namespace EventManagement.Api.Endpoints.EventEndpoints;
 
 internal sealed record CreateEventRequest(
     string Title,

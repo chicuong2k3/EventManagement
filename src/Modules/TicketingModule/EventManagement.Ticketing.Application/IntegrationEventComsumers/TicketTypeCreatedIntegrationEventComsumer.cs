@@ -1,6 +1,6 @@
 ﻿using EventManagement.Common.Application.Exceptions;
 using EventManagement.Events.IntegrationEvents;
-using EventManagement.Ticketing.Application.UseCases.TicketTypes;
+using EventManagement.Ticketing.Application.TicketTypes;
 using MediatR;
 
 namespace EventManagement.Ticketing.Application.IntegrationEventComsumers

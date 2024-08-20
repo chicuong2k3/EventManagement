@@ -1,7 +1,7 @@
 ﻿
 
 using EventManagement.Common.Application.Messaging;
-using EventManagement.Common.Domain.Results;
+using EventManagement.Common.Domain;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;

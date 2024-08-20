@@ -1,5 +1,7 @@
 ﻿
 
+using EventManagement.Users.Application.Users.UpdateUser;
+
 namespace EventManagement.Api.Endpoints.UserEndpoints;
 
 internal sealed record UpdateUserProfileRequest(

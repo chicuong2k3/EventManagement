@@ -7,6 +7,10 @@
       "ConfidentialClientId": "eventmanagement-confidential-client",
       "ConfidentialClientSecret": "cv1GWB42RfrXDbF5GNDtCzMZSLkSESLp",
       "PublicClientId": "eventmanagement-public-client"
+    },
+    "Outbox": {
+      "IntervalInSeconds": 25,
+      "BatchSize": 10
     }
   }
 }

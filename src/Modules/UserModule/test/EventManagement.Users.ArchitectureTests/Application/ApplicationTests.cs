@@ -117,6 +117,7 @@ namespace EventManagement.Users.ArchitectureTests.Application
         {
             Types.InAssembly(ApplicationAssembly)
                 .That().ImplementInterface(typeof(IDomainEventHandler<>))
+                .Or().Inherit(typeof(DomainEventHandler<>))
                 .Should().BeSealed()
                 .GetResult().ShouldBeSuccessful();
         }
@@ -126,6 +127,7 @@ namespace EventManagement.Users.ArchitectureTests.Application
         {
             Types.InAssembly(ApplicationAssembly)
                 .That().ImplementInterface(typeof(IDomainEventHandler<>))
+                .Or().Inherit(typeof(DomainEventHandler<>))
                 .Should().NotBePublic()
                 .GetResult().ShouldBeSuccessful();
         }
@@ -134,6 +136,7 @@ namespace EventManagement.Users.ArchitectureTests.Application
         {
             Types.InAssembly(ApplicationAssembly)
                 .That().ImplementInterface(typeof(IDomainEventHandler<>))
+                .Or().Inherit(typeof(DomainEventHandler<>))
                 .Should().HaveNameEndingWith("DomainEventHandler")
                 .GetResult().ShouldBeSuccessful();
         }

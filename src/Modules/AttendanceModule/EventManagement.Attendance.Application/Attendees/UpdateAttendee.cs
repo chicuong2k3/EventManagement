@@ -1,4 +1,8 @@
-﻿namespace EventManagement.Attendance.Application.Attendees;
+﻿
+
+using EventManagement.Common.Domain;
+
+namespace EventManagement.Attendance.Application.Attendees;
 
 public sealed record UpdateAttendeeCommand(Guid AttendeeId, string FirstName, string LastName) : ICommand;
 

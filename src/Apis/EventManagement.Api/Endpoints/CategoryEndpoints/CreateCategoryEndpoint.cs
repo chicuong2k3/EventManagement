@@ -1,4 +1,6 @@
-﻿namespace EventManagement.Api.Endpoints.CategoryEndpoints;
+﻿using EventManagement.Events.Application.Categories.CreateCategory;
+
+namespace EventManagement.Api.Endpoints.CategoryEndpoints;
 
 internal sealed record CreateCategoryRequest(
     string Name
