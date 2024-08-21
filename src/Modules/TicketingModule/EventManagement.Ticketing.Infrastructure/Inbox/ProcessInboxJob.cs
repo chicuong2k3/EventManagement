@@ -3,6 +3,7 @@ using EventManagement.Common.Application.Data;
 using EventManagement.Common.Application.EventBuses;
 using EventManagement.Common.Infrastructure.Inbox;
 using EventManagement.Common.Infrastructure.Serialization;
+using EventManagement.Ticketing.Infrastructure.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -20,7 +21,6 @@ internal sealed class ProcessInboxJob(
     ILogger<ProcessInboxJob> logger) : IJob
 {
     private const string ModuleName = "Ticketing";
-    private const string Schema = "ticketing";
     public async Task Execute(IJobExecutionContext context)
     {
         logger.LogInformation("{ModuleName}: Beginning to process inbox messages.", ModuleName);
@@ -79,7 +79,7 @@ internal sealed class ProcessInboxJob(
             SELECT
                 id AS {nameof(InboxMessageResponse.Id)},
                 content AS {nameof(InboxMessageResponse.Content)}
-            FROM {Schema}.inbox_messages
+            FROM {Schemas.Ticketing}.inbox_messages
             WHERE processed_on IS NULL
             ORDER BY occurred_on
             LIMIT {inboxOptions.Value.BatchSize}
@@ -101,7 +101,7 @@ internal sealed class ProcessInboxJob(
     {
         string sql =
             $"""
-            UPDATE {Schema}.inbox_messages
+            UPDATE {Schemas.Ticketing}.inbox_messages
             SET processed_on = @ProcessedOn, error = @Error
             WHERE id = @Id
             """;

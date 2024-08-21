@@ -1,6 +1,5 @@
 ﻿using Dapper;
-using EventManagement.Common.Application.Data;
-using EventManagement.Common.Domain;
+using EventManagement.Attendance.Infrastructure.Data;
 using EventManagement.Common.Infrastructure.Serialization;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -71,7 +70,7 @@ internal sealed class ProcessOutboxJob(
             SELECT
                 id AS {nameof(OutboxMessageResponse.Id)},
                 content AS {nameof(OutboxMessageResponse.Content)}
-            FROM attendance.outbox_messages
+            FROM {Schemas.Attendance}.outbox_messages
             WHERE processed_on IS NULL
             ORDER BY occurred_on
             LIMIT {outboxOptions.Value.BatchSize}
@@ -93,7 +92,7 @@ internal sealed class ProcessOutboxJob(
     {
         string sql =
             $"""
-            UPDATE attendance.outbox_messages
+            UPDATE {Schemas.Attendance}.outbox_messages
             SET processed_on = @ProcessedOn, error = @Error
             WHERE id = @Id
             """;

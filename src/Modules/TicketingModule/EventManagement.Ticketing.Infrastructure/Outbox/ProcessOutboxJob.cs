@@ -2,6 +2,7 @@
 using EventManagement.Common.Application.Data;
 using EventManagement.Common.Domain;
 using EventManagement.Common.Infrastructure.Serialization;
+using EventManagement.Ticketing.Infrastructure.Data;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -71,7 +72,7 @@ internal sealed class ProcessOutboxJob(
             SELECT
                 id AS {nameof(OutboxMessageResponse.Id)},
                 content AS {nameof(OutboxMessageResponse.Content)}
-            FROM ticketing.outbox_messages
+            FROM {Schemas.Ticketing}.outbox_messages
             WHERE processed_on IS NULL
             ORDER BY occurred_on
             LIMIT {outboxOptions.Value.BatchSize}
@@ -93,7 +94,7 @@ internal sealed class ProcessOutboxJob(
     {
         string sql =
             $"""
-            UPDATE ticketing.outbox_messages
+            UPDATE {Schemas.Ticketing}.outbox_messages
             SET processed_on = @ProcessedOn, error = @Error
             WHERE id = @Id
             """;

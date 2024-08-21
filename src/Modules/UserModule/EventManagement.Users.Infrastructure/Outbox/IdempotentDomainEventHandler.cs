@@ -14,7 +14,6 @@ namespace EventManagement.Users.Infrastructure.Outbox
         IDbConnectionFactory dbConnectionFactory) : DomainEventHandler<TDomainEvent>    
         where TDomainEvent : IDomainEvent
     {
-        private const string Schema = "users";
         public override async Task Handle(
             TDomainEvent domainEvent, 
             CancellationToken cancellationToken = default)
@@ -42,7 +41,7 @@ namespace EventManagement.Users.Infrastructure.Outbox
                 $"""
                 SELECT EXISTS (
                     SELECT 1
-                    FROM {Schema}.outbox_message_consumers
+                    FROM {Schemas.Users}.outbox_message_consumers
                     WHERE outbox_message_id = @OutboxMessageId
                     AND handler_name = @HandlerName
                 )
@@ -58,7 +57,7 @@ namespace EventManagement.Users.Infrastructure.Outbox
         {
             string sql =
                 $"""
-                INSERT INTO {Schema}.outbox_message_consumers(outbox_message_id, handler_name)
+                INSERT INTO {Schemas.Users}.outbox_message_consumers(outbox_message_id, handler_name)
                 VALUES (@OutboxMessageId, @HandlerName)
                 """;
 

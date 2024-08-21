@@ -4,6 +4,7 @@ using EventManagement.Common.Application.Messaging;
 using EventManagement.Common.Domain;
 using EventManagement.Common.Infrastructure.Inbox;
 using EventManagement.Common.Infrastructure.Outbox;
+using EventManagement.Ticketing.Infrastructure.Data;
 using System.Data.Common;
 
 namespace EventManagement.Ticketing.Infrastructure.Outbox
@@ -14,7 +15,6 @@ namespace EventManagement.Ticketing.Infrastructure.Outbox
         IDbConnectionFactory dbConnectionFactory) : DomainEventHandler<TDomainEvent>
         where TDomainEvent : IDomainEvent
     {
-        private const string Schema = "ticketing";
         public override async Task Handle(
             TDomainEvent domainEvent,
             CancellationToken cancellationToken = default)
@@ -42,7 +42,7 @@ namespace EventManagement.Ticketing.Infrastructure.Outbox
                 $"""
                 SELECT EXISTS (
                     SELECT 1
-                    FROM {Schema}.outbox_message_consumers
+                    FROM {Schemas.Ticketing}.outbox_message_consumers
                     WHERE outbox_message_id = @OutboxMessageId
                     AND handler_name = @HandlerName
                 )
@@ -58,7 +58,7 @@ namespace EventManagement.Ticketing.Infrastructure.Outbox
         {
             string sql =
                 $"""
-                INSERT INTO {Schema}.outbox_message_consumers(outbox_message_id, handler_name)
+                INSERT INTO {Schemas.Ticketing}.outbox_message_consumers(outbox_message_id, handler_name)
                 VALUES (@OutboxMessageId, @HandlerName)
                 """;
 

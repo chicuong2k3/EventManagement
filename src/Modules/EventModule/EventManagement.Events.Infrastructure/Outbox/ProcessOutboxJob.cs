@@ -71,7 +71,7 @@ internal sealed class ProcessOutboxJob(
             SELECT
                 id AS {nameof(OutboxMessageResponse.Id)},
                 content AS {nameof(OutboxMessageResponse.Content)}
-            FROM events.outbox_messages
+            FROM {Schemas.Events}.outbox_messages
             WHERE processed_on IS NULL
             ORDER BY occurred_on
             LIMIT {outboxOptions.Value.BatchSize}
@@ -93,7 +93,7 @@ internal sealed class ProcessOutboxJob(
     {
         string sql =
             $"""
-            UPDATE events.outbox_messages
+            UPDATE {Schemas.Events}.outbox_messages
             SET processed_on = @ProcessedOn, error = @Error
             WHERE id = @Id
             """;

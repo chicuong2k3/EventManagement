@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using EventManagement.Attendance.Infrastructure.Data;
 using EventManagement.Common.Application.EventBuses;
 using EventManagement.Common.Infrastructure.Inbox;
 using EventManagement.Common.Infrastructure.Serialization;
@@ -11,7 +12,6 @@ namespace EventManagement.Attendance.Infrastructure.Inbox
         : IConsumer<TIntegrationEvent>
         where TIntegrationEvent : IntegrationEvent
     {
-        private const string Schema = "attendance";
         public async Task Consume(ConsumeContext<TIntegrationEvent> context)
         {
             await using var dbConnection = await dbConnectionFactory.OpenConnectionAsync();
@@ -28,7 +28,7 @@ namespace EventManagement.Attendance.Infrastructure.Inbox
 
             string sql =
                 $"""
-                INSERT INTO {Schema}.inbox_messages(id, type, content, occurred_on)
+                INSERT INTO {Schemas.Attendance}.inbox_messages(id, type, content, occurred_on)
                 VALUES (@Id, @Type, @Content::json, @OccurredOn);
                 """;
 

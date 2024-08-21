@@ -5,6 +5,7 @@ using EventManagement.Common.Application.Messaging;
 using EventManagement.Common.Domain;
 using EventManagement.Common.Infrastructure.Inbox;
 using EventManagement.Common.Infrastructure.Outbox;
+using EventManagement.Ticketing.Infrastructure.Data;
 using System.Data.Common;
 
 namespace EventManagement.Ticketing.Infrastructure.Inbox
@@ -15,7 +16,6 @@ namespace EventManagement.Ticketing.Infrastructure.Inbox
         IDbConnectionFactory dbConnectionFactory) : IntegrationEventHandler<TIntegrationEvent>
         where TIntegrationEvent : IIntegrationEvent
     {
-        private const string Schema = "ticketing";
         public override async Task Handle(
             TIntegrationEvent integrationEvent,
             CancellationToken cancellationToken = default)
@@ -43,7 +43,7 @@ namespace EventManagement.Ticketing.Infrastructure.Inbox
                 $"""
                 SELECT EXISTS (
                     SELECT 1
-                    FROM {Schema}.inbox_message_consumers
+                    FROM {Schemas.Ticketing}.inbox_message_consumers
                     WHERE inbox_message_id = @InboxMessageId
                     AND handler_name = @HandlerName
                 )
@@ -59,7 +59,7 @@ namespace EventManagement.Ticketing.Infrastructure.Inbox
         {
             string sql =
                 $"""
-                INSERT INTO {Schema}.inbox_message_consumers(inbox_message_id, handler_name)
+                INSERT INTO {Schemas.Ticketing}.inbox_message_consumers(inbox_message_id, handler_name)
                 VALUES (@InboxMessageId, @HandlerName)
                 """;
 

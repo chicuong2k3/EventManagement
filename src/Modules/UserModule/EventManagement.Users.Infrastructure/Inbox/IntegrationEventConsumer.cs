@@ -12,7 +12,6 @@ namespace EventManagement.Users.Infrastructure.Inbox
         : IConsumer<TIntegrationEvent>
         where TIntegrationEvent : IntegrationEvent
     {
-        private const string Schema = "users";
         public async Task Consume(ConsumeContext<TIntegrationEvent> context)
         {
             await using var dbConnection = await dbConnectionFactory.OpenConnectionAsync();
@@ -29,7 +28,7 @@ namespace EventManagement.Users.Infrastructure.Inbox
 
             string sql =
                 $"""
-                INSERT INTO {Schema}.inbox_messages(id, type, content, occurred_on)
+                INSERT INTO {Schemas.Users}.inbox_messages(id, type, content, occurred_on)
                 VALUES (@Id, @Type, @Content::json, @OccurredOn);
                 """;
 

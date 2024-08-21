@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using EventManagement.Attendance.Infrastructure.Data;
 using EventManagement.Common.Application.EventBuses;
 using EventManagement.Common.Infrastructure.Inbox;
 using System.Data.Common;
@@ -11,7 +12,6 @@ namespace EventManagement.Attendance.Infrastructure.Inbox
         IDbConnectionFactory dbConnectionFactory) : IntegrationEventHandler<TIntegrationEvent>
         where TIntegrationEvent : IIntegrationEvent
     {
-        private const string Schema = "attendance";
         public override async Task Handle(
             TIntegrationEvent integrationEvent,
             CancellationToken cancellationToken = default)
@@ -39,7 +39,7 @@ namespace EventManagement.Attendance.Infrastructure.Inbox
                 $"""
                 SELECT EXISTS (
                     SELECT 1
-                    FROM {Schema}.inbox_message_consumers
+                    FROM {Schemas.Attendance}.inbox_message_consumers
                     WHERE inbox_message_id = @InboxMessageId
                     AND handler_name = @HandlerName
                 )
@@ -55,7 +55,7 @@ namespace EventManagement.Attendance.Infrastructure.Inbox
         {
             string sql =
                 $"""
-                INSERT INTO {Schema}.inbox_message_consumers(inbox_message_id, handler_name)
+                INSERT INTO {Schemas.Attendance}.inbox_message_consumers(inbox_message_id, handler_name)
                 VALUES (@InboxMessageId, @HandlerName)
                 """;
 

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using EventManagement.Attendance.Infrastructure.Data;
 using EventManagement.Common.Application.Data;
 using EventManagement.Common.Application.Messaging;
 using EventManagement.Common.Domain;
@@ -14,7 +15,6 @@ namespace EventManagement.Attendance.Infrastructure.Outbox
         IDbConnectionFactory dbConnectionFactory) : DomainEventHandler<TDomainEvent>
         where TDomainEvent : IDomainEvent
     {
-        private const string Schema = "attendance";
         public override async Task Handle(
             TDomainEvent domainEvent,
             CancellationToken cancellationToken = default)
@@ -42,7 +42,7 @@ namespace EventManagement.Attendance.Infrastructure.Outbox
                 $"""
                 SELECT EXISTS (
                     SELECT 1
-                    FROM {Schema}.outbox_message_consumers
+                    FROM {Schemas.Attendance}.outbox_message_consumers
                     WHERE outbox_message_id = @OutboxMessageId
                     AND handler_name = @HandlerName
                 )

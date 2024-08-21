@@ -3,6 +3,7 @@ using EventManagement.Common.Application.Data;
 using EventManagement.Common.Application.EventBuses;
 using EventManagement.Common.Infrastructure.Inbox;
 using EventManagement.Common.Infrastructure.Serialization;
+using EventManagement.Ticketing.Infrastructure.Data;
 using MassTransit;
 using Newtonsoft.Json;
 
@@ -12,7 +13,6 @@ namespace EventManagement.Ticketing.Infrastructure.Inbox
         : IConsumer<TIntegrationEvent>
         where TIntegrationEvent : IntegrationEvent
     {
-        private const string Schema = "ticketing";
         public async Task Consume(ConsumeContext<TIntegrationEvent> context)
         {
             await using var dbConnection = await dbConnectionFactory.OpenConnectionAsync();
@@ -29,7 +29,7 @@ namespace EventManagement.Ticketing.Infrastructure.Inbox
 
             string sql =
                 $"""
-                INSERT INTO {Schema}.inbox_messages(id, type, content, occurred_on)
+                INSERT INTO {Schemas.Ticketing}.inbox_messages(id, type, content, occurred_on)
                 VALUES (@Id, @Type, @Content::json, @OccurredOn);
                 """;
                   
