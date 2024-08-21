@@ -1,4 +1,5 @@
-﻿using EventManagement.Common.Application.Exceptions;
+﻿using EventManagement.Common.Application.EventBuses;
+using EventManagement.Common.Application.Exceptions;
 using EventManagement.Events.IntegrationEvents;
 using EventManagement.Ticketing.Application.TicketTypes;
 using MediatR;
@@ -6,17 +7,19 @@ using MediatR;
 namespace EventManagement.Ticketing.Application.IntegrationEventComsumers
 {
     internal class TicketTypeCreatedIntegrationEventComsumer(ISender sender)
-                : IConsumer<TicketTypeCreatedIntegrationEvent>
+                : IntegrationEventHandler<TicketTypeCreatedIntegrationEvent>
     {
-        public async Task Consume(ConsumeContext<TicketTypeCreatedIntegrationEvent> context)
+        public override async Task Handle(
+            TicketTypeCreatedIntegrationEvent integrationEvent,
+            CancellationToken cancellationToken = default)
         {
             var command = new CreateTicketTypeCommand(
-                context.Message.Id,
-                context.Message.EventId,
-                context.Message.Name,
-                context.Message.Price,
-                context.Message.Currency,
-                context.Message.Quantity);
+                integrationEvent.Id,
+                integrationEvent.EventId,
+                integrationEvent.Name,
+                integrationEvent.Price,
+                integrationEvent.Currency,
+                integrationEvent.Quantity);
 
             var result = await sender.Send(command);
 

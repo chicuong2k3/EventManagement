@@ -1,7 +1,8 @@
-﻿using EventManagement.Common.Application.Messaging;
+﻿using EventManagement.Common.Application.EventBuses;
+using EventManagement.Common.Application.Messaging;
 using EventManagement.Common.Infrastructure.Outbox;
+using EventManagement.Events.IntegrationEvents;
 using EventManagement.Ticketing.Application.Abstractions.Data;
-using EventManagement.Ticketing.Application.IntegrationEventComsumers;
 using EventManagement.Ticketing.Application.Services;
 using EventManagement.Ticketing.Domain.Customers;
 using EventManagement.Ticketing.Domain.Events;
@@ -12,11 +13,13 @@ using EventManagement.Ticketing.Domain.TicketTypes;
 using EventManagement.Ticketing.Infrastructure.Customers;
 using EventManagement.Ticketing.Infrastructure.Data;
 using EventManagement.Ticketing.Infrastructure.Events;
+using EventManagement.Ticketing.Infrastructure.Inbox;
 using EventManagement.Ticketing.Infrastructure.Orders;
 using EventManagement.Ticketing.Infrastructure.Outbox;
 using EventManagement.Ticketing.Infrastructure.Payments;
 using EventManagement.Ticketing.Infrastructure.Tickets;
 using EventManagement.Ticketing.Infrastructure.TicketTypes;
+using EventManagement.Users.IntegrationEvents;
 using MassTransit;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -28,10 +31,6 @@ namespace EventManagement.Ticketing.Infrastructure
 
     public static class DependencyInjection
     {
-        public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
-        {
-            registrationConfigurator.AddConsumer<UserRegisteredIntegrationEventComsumer>();
-        }
         public static IServiceCollection AddTicketingInfrastructure(
             this IServiceCollection services,
             IConfiguration configuration)
@@ -71,7 +70,9 @@ namespace EventManagement.Ticketing.Infrastructure
 
             services.AddDomainEventHanlers();
 
-            
+            services.AddIntegrationEventConsumers();
+
+
             return services;
         }
 
@@ -98,6 +99,36 @@ namespace EventManagement.Ticketing.Infrastructure
             }
 
 
+        }
+
+        public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+        {
+            registrationConfigurator.AddConsumer<IntegrationEventConsumer<UserRegisteredIntegrationEvent>>();
+            registrationConfigurator.AddConsumer<IntegrationEventConsumer<TicketTypeCreatedIntegrationEvent>>();
+        }
+
+        private static void AddIntegrationEventConsumers(this IServiceCollection services)
+        {
+            var integrationEventHandlers = Application.AssemblyReference.Assembly
+                .GetTypes()
+                .Where(t => t.IsAssignableTo(typeof(IIntegrationEventHandler)))
+                .ToArray();
+
+            foreach (var integrationEventHandler in integrationEventHandlers)
+            {
+                services.TryAddScoped(integrationEventHandler);
+
+                var integrationEvent = integrationEventHandler
+                    .GetInterfaces()
+                    .Single(i => i.IsGenericType)
+                    .GetGenericArguments()
+                    .Single();
+
+                var closedIdempotentHandler =
+                    typeof(IdempotentIntegrationEventHandler<>).MakeGenericType(integrationEvent);
+
+                services.Decorate(integrationEventHandler, closedIdempotentHandler);
+            }
         }
     }
 }

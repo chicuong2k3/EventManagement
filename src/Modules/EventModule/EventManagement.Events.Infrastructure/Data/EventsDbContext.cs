@@ -1,4 +1,5 @@
-﻿using EventManagement.Common.Infrastructure.Outbox;
+﻿using EventManagement.Common.Infrastructure.Inbox;
+using EventManagement.Common.Infrastructure.Outbox;
 using EventManagement.Events.Application.Abstractions.Data;
 using EventManagement.Events.Domain.Categories;
 using EventManagement.Events.Domain.Events;
@@ -18,6 +19,9 @@ namespace EventManagement.Events.Infrastructure.Data
 
             modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
             modelBuilder.ApplyConfiguration(new OutboxMessageConsumerConfiguration());
+
+            modelBuilder.ApplyConfiguration(new InboxMessageConfiguration());
+            modelBuilder.ApplyConfiguration(new InboxMessageConsumerConfiguration());
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

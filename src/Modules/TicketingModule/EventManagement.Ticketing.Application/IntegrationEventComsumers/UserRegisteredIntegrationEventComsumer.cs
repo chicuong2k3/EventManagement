@@ -1,5 +1,4 @@
-﻿
-
+﻿using EventManagement.Common.Application.EventBuses;
 using EventManagement.Common.Application.Exceptions;
 using EventManagement.Ticketing.Application.Customers;
 using EventManagement.Users.IntegrationEvents;
@@ -8,15 +7,17 @@ using MediatR;
 namespace EventManagement.Ticketing.Application.IntegrationEventComsumers
 {
     public class UserRegisteredIntegrationEventComsumer(ISender sender)
-        : IConsumer<UserRegisteredIntegrationEvent>
+        : IntegrationEventHandler<UserRegisteredIntegrationEvent>
     {
-        public async Task Consume(ConsumeContext<UserRegisteredIntegrationEvent> context)
+        public override async Task Handle(
+            UserRegisteredIntegrationEvent integrationEvent,
+            CancellationToken cancellationToken = default)
         {
             var command = new CreateCustomerCommand(
-                context.Message.UserId,
-                context.Message.Email,
-                context.Message.FirstName,
-                context.Message.LastName);
+                integrationEvent.UserId,
+                integrationEvent.Email,
+                integrationEvent.FirstName,
+                integrationEvent.LastName);
 
             var result = await sender.Send(command);
 

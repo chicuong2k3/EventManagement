@@ -3,10 +3,13 @@ using EventManagement.Attendance.Infrastructure.Attendees;
 using EventManagement.Attendance.Infrastructure.Authentication;
 using EventManagement.Attendance.Infrastructure.Data;
 using EventManagement.Attendance.Infrastructure.Events;
+using EventManagement.Attendance.Infrastructure.Inbox;
 using EventManagement.Attendance.Infrastructure.Outbox;
 using EventManagement.Attendance.Infrastructure.Tickets;
+using EventManagement.Common.Application.EventBuses;
 using EventManagement.Common.Application.Messaging;
 using EventManagement.Common.Infrastructure.Outbox;
+using MassTransit;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,6 +50,7 @@ public static class DependencyInjection
 
         services.AddDomainEventHanlers();
 
+        services.AddIntegrationEventConsumers();
 
         return services;
     }
@@ -74,6 +78,34 @@ public static class DependencyInjection
         }
 
 
+    }
+
+    public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+    {
+    }
+
+    private static void AddIntegrationEventConsumers(this IServiceCollection services)
+    {
+        var integrationEventHandlers = Application.AssemblyReference.Assembly
+            .GetTypes()
+            .Where(t => t.IsAssignableTo(typeof(IIntegrationEventHandler)))
+            .ToArray();
+
+        foreach (var integrationEventHandler in integrationEventHandlers)
+        {
+            services.TryAddScoped(integrationEventHandler);
+
+            var integrationEvent = integrationEventHandler
+                .GetInterfaces()
+                .Single(i => i.IsGenericType)
+                .GetGenericArguments()
+                .Single();
+
+            var closedIdempotentHandler =
+                typeof(IdempotentIntegrationEventHandler<>).MakeGenericType(integrationEvent);
+
+            services.Decorate(integrationEventHandler, closedIdempotentHandler);
+        }
     }
 
 }

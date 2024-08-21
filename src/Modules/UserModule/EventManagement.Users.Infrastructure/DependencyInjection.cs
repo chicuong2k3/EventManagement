@@ -1,12 +1,16 @@
-﻿using EventManagement.Common.Application.Messaging;
+﻿using EventManagement.Common.Application.EventBuses;
+using EventManagement.Common.Application.Messaging;
 using EventManagement.Common.Infrastructure.Outbox;
 using EventManagement.Users.Application.Abstractions.Data;
 using EventManagement.Users.Application.Abstractions.Identity;
 using EventManagement.Users.Domain.Users;
 using EventManagement.Users.Infrastructure.Authorization;
 using EventManagement.Users.Infrastructure.Identity;
+using EventManagement.Users.Infrastructure.Inbox;
 using EventManagement.Users.Infrastructure.Outbox;
 using EventManagement.Users.Infrastructure.Users;
+using EventManagement.Users.IntegrationEvents;
+using MassTransit;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,6 +72,7 @@ namespace EventManagement.Users.Infrastructure
 
             services.AddDomainEventHanlers();
 
+            services.AddIntegrationEventConsumers();
 
             return services;
         }
@@ -98,6 +103,33 @@ namespace EventManagement.Users.Infrastructure
 
         }
 
+        public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+        {
+        }
+
+        private static void AddIntegrationEventConsumers(this IServiceCollection services)
+        {
+            var integrationEventHandlers = Application.AssemblyReference.Assembly
+                .GetTypes()
+                .Where(t => t.IsAssignableTo(typeof(IIntegrationEventHandler)))
+                .ToArray();
+
+            foreach (var integrationEventHandler in integrationEventHandlers)
+            {
+                services.TryAddScoped(integrationEventHandler);
+
+                var integrationEvent = integrationEventHandler
+                    .GetInterfaces()
+                    .Single(i => i.IsGenericType)
+                    .GetGenericArguments()
+                    .Single();
+
+                var closedIdempotentHandler =
+                    typeof(IdempotentIntegrationEventHandler<>).MakeGenericType(integrationEvent);
+
+                services.Decorate(integrationEventHandler, closedIdempotentHandler);
+            }
+        }
 
     }
 }

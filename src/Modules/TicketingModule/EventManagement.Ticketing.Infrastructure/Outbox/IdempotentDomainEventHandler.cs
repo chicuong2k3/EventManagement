@@ -2,6 +2,7 @@
 using EventManagement.Common.Application.Data;
 using EventManagement.Common.Application.Messaging;
 using EventManagement.Common.Domain;
+using EventManagement.Common.Infrastructure.Inbox;
 using EventManagement.Common.Infrastructure.Outbox;
 using System.Data.Common;
 

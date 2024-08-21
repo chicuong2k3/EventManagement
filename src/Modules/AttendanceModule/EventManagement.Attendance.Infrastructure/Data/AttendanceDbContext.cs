@@ -1,4 +1,5 @@
 ﻿using EventManagement.Attendance.Application.Abstractions.Data;
+using EventManagement.Common.Infrastructure.Inbox;
 using EventManagement.Common.Infrastructure.Outbox;
 
 namespace EventManagement.Attendance.Infrastructure.Data;
@@ -18,6 +19,9 @@ public sealed class AttendanceDbContext(DbContextOptions<AttendanceDbContext> op
 
         modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
         modelBuilder.ApplyConfiguration(new OutboxMessageConsumerConfiguration());
+
+        modelBuilder.ApplyConfiguration(new InboxMessageConfiguration());
+        modelBuilder.ApplyConfiguration(new InboxMessageConsumerConfiguration());
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
