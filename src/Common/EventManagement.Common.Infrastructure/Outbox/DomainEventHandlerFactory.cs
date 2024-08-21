@@ -32,7 +32,7 @@ namespace EventManagement.Common.Infrastructure.Outbox
             foreach (var domainEventHandlerType in domainEventHandlerTypes)
             {
                 var handler = serviceProvider.GetRequiredService(domainEventHandlerType);
-                handlers.Add((domainEventHandlerType as IDomainEventHandler)!);
+                handlers.Add((handler as IDomainEventHandler)!);
             }
 
             return handlers;
