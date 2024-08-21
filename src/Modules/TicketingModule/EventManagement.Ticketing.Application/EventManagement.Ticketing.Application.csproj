@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\EventModule\EventManagement.Events.IntegrationEvents\EventManagement.Events.IntegrationEvents.csproj" />
     <ProjectReference Include="..\..\UserModule\EventManagement.Users.IntegrationEvents\EventManagement.Users.IntegrationEvents.csproj" />
     <ProjectReference Include="..\EventManagement.Ticketing.Domain\EventManagement.Ticketing.Domain.csproj" />
+    <ProjectReference Include="..\EventManagement.Ticketing.IntegrationEvents\EventManagement.Ticketing.IntegrationEvents.csproj" />
   </ItemGroup>
 
   <ItemGroup>

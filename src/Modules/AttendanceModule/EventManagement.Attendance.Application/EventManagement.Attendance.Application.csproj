@@ -6,6 +6,7 @@
 	</PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\EventManagement.Common.Application\EventManagement.Common.Application.csproj" />
+    <ProjectReference Include="..\..\UserModule\EventManagement.Users.IntegrationEvents\EventManagement.Users.IntegrationEvents.csproj" />
     <ProjectReference Include="..\EventManagement.Attendance.Domain\EventManagement.Attendance.Domain.csproj" />
   </ItemGroup>
 </Project>

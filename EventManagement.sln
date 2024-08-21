@@ -73,6 +73,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventManagement.Users.Archi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventManagement.Events.IntegrationEvents", "src\Modules\EventModule\EventManagement.Events.IntegrationEvents\EventManagement.Events.IntegrationEvents.csproj", "{01D0077E-38D0-4D5C-9216-268E07DF84FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManagement.Ticketing.IntegrationEvents", "src\Modules\TicketingModule\EventManagement.Ticketing.IntegrationEvents\EventManagement.Ticketing.IntegrationEvents.csproj", "{13ED4963-0FCD-4EEE-AA6D-22928B2064D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +169,10 @@ Global
 		{01D0077E-38D0-4D5C-9216-268E07DF84FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01D0077E-38D0-4D5C-9216-268E07DF84FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01D0077E-38D0-4D5C-9216-268E07DF84FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13ED4963-0FCD-4EEE-AA6D-22928B2064D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13ED4963-0FCD-4EEE-AA6D-22928B2064D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13ED4963-0FCD-4EEE-AA6D-22928B2064D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13ED4963-0FCD-4EEE-AA6D-22928B2064D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -201,6 +207,7 @@ Global
 		{D3B8ABF0-0641-43ED-8561-4B9B3F11B0E5} = {AAEAABF0-49C0-4179-B1A1-881A3285DBE8}
 		{45DC2C0E-4191-4474-A7FB-D399D95A0E0C} = {D3B8ABF0-0641-43ED-8561-4B9B3F11B0E5}
 		{01D0077E-38D0-4D5C-9216-268E07DF84FF} = {17381840-C45D-4590-9C44-3CEA80546B42}
+		{13ED4963-0FCD-4EEE-AA6D-22928B2064D6} = {FDEDB384-00FA-4232-97E8-FAE561C974AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD6A2B0E-7C4C-4772-A1B0-F3455479408C}

@@ -39,6 +39,9 @@ namespace EventManagement.Ticketing.Infrastructure
             services.Configure<OutboxOptions>(configuration.GetSection("Ticketing:Outbox"));
 
             services.ConfigureOptions<ConfigureProcessOutboxJob>();
+            services.Configure<InboxOptions>(configuration.GetSection("Ticketing:Inbox"));
+
+            services.ConfigureOptions<ConfigureProcessInboxJob>();
 
             // Entity Framework Core
             string dbConnectionString = configuration.GetConnectionString("Database")!;
@@ -70,7 +73,7 @@ namespace EventManagement.Ticketing.Infrastructure
 
             services.AddDomainEventHanlers();
 
-            services.AddIntegrationEventConsumers();
+            services.AddIntegrationEventHandlers();
 
 
             return services;
@@ -101,13 +104,15 @@ namespace EventManagement.Ticketing.Infrastructure
 
         }
 
-        public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+        public static void ConfigureIntegrationEventHandlers(IRegistrationConfigurator registrationConfigurator)
         {
             registrationConfigurator.AddConsumer<IntegrationEventConsumer<UserRegisteredIntegrationEvent>>();
-            registrationConfigurator.AddConsumer<IntegrationEventConsumer<TicketTypeCreatedIntegrationEvent>>();
+            registrationConfigurator.AddConsumer<IntegrationEventConsumer<UserUpdatedIntegrationEvent>>();
+            registrationConfigurator.AddConsumer<IntegrationEventConsumer<TicketTypePriceChangedIntegrationEvent>>();
+            registrationConfigurator.AddConsumer<IntegrationEventConsumer<EventPublishedIntegrationEvent>>();
         }
 
-        private static void AddIntegrationEventConsumers(this IServiceCollection services)
+        private static void AddIntegrationEventHandlers(this IServiceCollection services)
         {
             var integrationEventHandlers = Application.AssemblyReference.Assembly
                 .GetTypes()

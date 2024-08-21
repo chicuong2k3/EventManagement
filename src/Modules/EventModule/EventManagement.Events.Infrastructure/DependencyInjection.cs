@@ -29,6 +29,10 @@ namespace EventManagement.Events.Infrastructure
 
             services.ConfigureOptions<ConfigureProcessOutboxJob>();
 
+            services.Configure<InboxOptions>(configuration.GetSection("Events:Inbox"));
+
+            services.ConfigureOptions<ConfigureProcessInboxJob>();
+
             // Entity Framework Core
             string dbConnectionString = configuration.GetConnectionString("Database")!;
             services.AddDbContext<EventsDbContext>((serviceProvider, options) =>
@@ -54,7 +58,7 @@ namespace EventManagement.Events.Infrastructure
 
             services.AddDomainEventHanlers();
 
-            services.AddIntegrationEventConsumers();
+            services.AddIntegrationEventHandlers();
 
             return services;
         }
@@ -84,11 +88,11 @@ namespace EventManagement.Events.Infrastructure
 
         }
 
-        public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+        public static void ConfigureIntegrationEventHandlers(IRegistrationConfigurator registrationConfigurator)
         {
         }
 
-        private static void AddIntegrationEventConsumers(this IServiceCollection services)
+        private static void AddIntegrationEventHandlers(this IServiceCollection services)
         {
             var integrationEventHandlers = Application.AssemblyReference.Assembly
                 .GetTypes()

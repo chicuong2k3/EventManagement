@@ -1,7 +1,6 @@
 ﻿
 using Dapper;
 using EventManagement.Common.Domain;
-using EventManagement.Events.Domain.Events;
 
 namespace EventManagement.Events.Application.Events;
 
@@ -15,10 +14,10 @@ public sealed record GetEventByIdResponse(
     DateTime? EndsAt
 )
 {
-    public List<TicketResponse> Tickets { get; } = [];
+    public List<TicketTypeResponse> TicketTypes { get; } = [];
 }
-public sealed record TicketResponse(
-    Guid TicketId,
+public sealed record TicketTypeResponse(
+    Guid TicketTypeId,
     string Name,
     decimal Price,
     string Currency,
@@ -45,11 +44,11 @@ internal sealed class GetEventByIdQueryHandler(
                     e.category_id AS {nameof(GetEventByIdResponse.CategoryId)},
                     e.starts_at AS {nameof(GetEventByIdResponse.StartsAt)},
                     e.ends_at AS {nameof(GetEventByIdResponse.EndsAt)},
-                    t.id AS {nameof(TicketResponse.TicketId)},
-                    t.name AS {nameof(TicketResponse.Name)},
-                    t.price AS {nameof(TicketResponse.Price)},
-                    t.currency AS {nameof(TicketResponse.Currency)},
-                    t.quantity AS {nameof(TicketResponse.Quantity)}
+                    t.id AS {nameof(TicketTypeResponse.TicketTypeId)},
+                    t.name AS {nameof(TicketTypeResponse.Name)},
+                    t.price AS {nameof(TicketTypeResponse.Price)},
+                    t.currency AS {nameof(TicketTypeResponse.Currency)},
+                    t.quantity AS {nameof(TicketTypeResponse.Quantity)}
                 FROM events.events e
                 LEFT JOIN events.ticket_types t ON t.event_id = e.id
                 WHERE e.id = @Id
@@ -57,7 +56,7 @@ internal sealed class GetEventByIdQueryHandler(
 
             Dictionary<Guid, GetEventByIdResponse> eventsDictionary = [];
 
-            await connection.QueryAsync<GetEventByIdResponse, TicketResponse, GetEventByIdResponse>(
+            await connection.QueryAsync<GetEventByIdResponse, TicketTypeResponse, GetEventByIdResponse>(
                 Sql,
                 (eventEntity, ticket) =>
                 {
@@ -72,13 +71,13 @@ internal sealed class GetEventByIdQueryHandler(
 
                     if (ticket != null)
                     {
-                        eventEntity.Tickets.Add(ticket);
+                        eventEntity.TicketTypes.Add(ticket);
                     }
 
                     return eventEntity;
                 },
                 query,
-                splitOn: nameof(TicketResponse.TicketId)
+                splitOn: nameof(TicketTypeResponse.TicketTypeId)
             );
 
             if (!eventsDictionary.TryGetValue(query.Id, out GetEventByIdResponse? response))

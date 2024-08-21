@@ -28,7 +28,9 @@ public static class DependencyInjection
 
         services.ConfigureOptions<ConfigureProcessOutboxJob>();
 
+        services.Configure<InboxOptions>(configuration.GetSection("Attendance:Inbox"));
 
+        services.ConfigureOptions<ConfigureProcessInboxJob>();
         // Database
         services.AddDbContext<AttendanceDbContext>((sp, options) =>
             options
@@ -50,7 +52,7 @@ public static class DependencyInjection
 
         services.AddDomainEventHanlers();
 
-        services.AddIntegrationEventConsumers();
+        services.AddIntegrationEventHandlers();
 
         return services;
     }
@@ -80,11 +82,11 @@ public static class DependencyInjection
 
     }
 
-    public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+    public static void ConfigureIntegrationEventHandlers(IRegistrationConfigurator registrationConfigurator)
     {
     }
 
-    private static void AddIntegrationEventConsumers(this IServiceCollection services)
+    private static void AddIntegrationEventHandlers(this IServiceCollection services)
     {
         var integrationEventHandlers = Application.AssemblyReference.Assembly
             .GetTypes()

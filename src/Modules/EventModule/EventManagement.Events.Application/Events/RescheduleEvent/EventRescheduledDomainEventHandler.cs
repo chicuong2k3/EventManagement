@@ -1,12 +1,21 @@
-﻿using EventManagement.Events.Domain.Events;
+﻿
 
 namespace EventManagement.Events.Application.Events.RescheduleEvent
 {
-    internal class EventRescheduledDomainEventHandler : DomainEventHandler<EventRescheduledDomainEvent>
+    internal class EventRescheduledDomainEventHandler(
+        IEventBus eventBus) 
+        : DomainEventHandler<EventRescheduledDomainEvent>
     {
-        public override Task Handle(EventRescheduledDomainEvent domainEvent, CancellationToken cancellationToken)
+        public override async Task Handle(EventRescheduledDomainEvent domainEvent, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+           
+            await eventBus.PublishAsync(new EventRescheduledIntegrationEvent(
+                domainEvent.Id,
+                domainEvent.OccurredOn,
+                domainEvent.EventId,
+                domainEvent.StartsAt,
+                domainEvent.EndsAt
+            ));
         }
     }
 }

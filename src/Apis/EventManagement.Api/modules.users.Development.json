@@ -11,6 +11,10 @@
     "Outbox": {
       "IntervalInSeconds": 25,
       "BatchSize": 10
+    },
+    "Inbox": {
+      "IntervalInSeconds": 25,
+      "BatchSize": 10
     }
   }
 }

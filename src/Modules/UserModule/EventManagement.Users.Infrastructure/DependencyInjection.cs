@@ -9,7 +9,6 @@ using EventManagement.Users.Infrastructure.Identity;
 using EventManagement.Users.Infrastructure.Inbox;
 using EventManagement.Users.Infrastructure.Outbox;
 using EventManagement.Users.Infrastructure.Users;
-using EventManagement.Users.IntegrationEvents;
 using MassTransit;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +28,10 @@ namespace EventManagement.Users.Infrastructure
             services.Configure<OutboxOptions>(configuration.GetSection("Users:Outbox"));
             
             services.ConfigureOptions<ConfigureProcessOutboxJob>();
+
+            services.Configure<InboxOptions>(configuration.GetSection("Users:Inbox"));
+
+            services.ConfigureOptions<ConfigureProcessInboxJob>();
 
             // KeyCloak
             services.Configure<KeyCloakOptions>(configuration.GetSection("Users:KeyCloak"));
@@ -72,7 +75,7 @@ namespace EventManagement.Users.Infrastructure
 
             services.AddDomainEventHanlers();
 
-            services.AddIntegrationEventConsumers();
+            services.AddIntegrationEventHandlers();
 
             return services;
         }
@@ -103,11 +106,11 @@ namespace EventManagement.Users.Infrastructure
 
         }
 
-        public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+        public static void ConfigureIntegrationEventHandlers(IRegistrationConfigurator registrationConfigurator)
         {
         }
 
-        private static void AddIntegrationEventConsumers(this IServiceCollection services)
+        private static void AddIntegrationEventHandlers(this IServiceCollection services)
         {
             var integrationEventHandlers = Application.AssemblyReference.Assembly
                 .GetTypes()

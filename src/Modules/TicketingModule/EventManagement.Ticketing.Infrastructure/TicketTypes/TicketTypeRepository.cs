@@ -23,12 +23,6 @@ namespace EventManagement.Ticketing.Infrastructure.TicketTypes
                 """)
             .SingleOrDefaultAsync(cancellationToken);
         }
-
-        public void Insert(TicketType ticketType)
-        {
-            dbContext.TicketTypes.Add(ticketType);
-        }
-
         public void InsertRange(IEnumerable<TicketType> ticketTypes)
         {
             dbContext.TicketTypes.AddRange(ticketTypes);

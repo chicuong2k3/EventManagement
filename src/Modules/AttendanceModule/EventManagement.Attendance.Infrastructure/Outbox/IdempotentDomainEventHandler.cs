@@ -1,9 +1,6 @@
 ﻿using Dapper;
 using EventManagement.Attendance.Infrastructure.Data;
-using EventManagement.Common.Application.Data;
 using EventManagement.Common.Application.Messaging;
-using EventManagement.Common.Domain;
-using EventManagement.Common.Infrastructure.Inbox;
 using EventManagement.Common.Infrastructure.Outbox;
 using System.Data.Common;
 
@@ -58,7 +55,7 @@ namespace EventManagement.Attendance.Infrastructure.Outbox
         {
             string sql =
                 $"""
-                INSERT INTO {Schema}.outbox_message_consumers(outbox_message_id, handler_name)
+                INSERT INTO {Schemas.Attendance}.outbox_message_consumers(outbox_message_id, handler_name)
                 VALUES (@OutboxMessageId, @HandlerName)
                 """;
 

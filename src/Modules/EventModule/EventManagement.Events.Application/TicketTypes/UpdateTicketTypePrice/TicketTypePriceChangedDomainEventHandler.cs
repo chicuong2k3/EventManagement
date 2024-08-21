@@ -3,12 +3,16 @@
 namespace EventManagement.Events.Application.TicketTypes.UpdateTicketTypePrice
 {
     internal class TicketTypePriceChangedDomainEventHandler(
-        IEventBus eventBus,
-        ISender sender) : DomainEventHandler<TicketTypePriceChangedDomainEvent>
+        IEventBus eventBus) : DomainEventHandler<TicketTypePriceChangedDomainEvent>
     {
-        public override Task Handle(TicketTypePriceChangedDomainEvent domainEvent, CancellationToken cancellationToken)
+        public override async Task Handle(TicketTypePriceChangedDomainEvent domainEvent, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            await eventBus.PublishAsync(new TicketTypePriceChangedIntegrationEvent(
+                domainEvent.Id,
+                domainEvent.OccurredOn,
+                domainEvent.TicketTypeId, 
+                domainEvent.Price
+            ), cancellationToken);
         }
     }
 }
