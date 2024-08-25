@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\EventManagement.Common.Application\EventManagement.Common.Application.csproj" />
     <ProjectReference Include="..\..\..\Common\EventManagement.Common.Domain\EventManagement.Common.Domain.csproj" />
+    <ProjectReference Include="..\..\TicketingModule\EventManagement.Ticketing.IntegrationEvents\EventManagement.Ticketing.IntegrationEvents.csproj" />
     <ProjectReference Include="..\EventManagement.Events.Domain\EventManagement.Events.Domain.csproj" />
     <ProjectReference Include="..\EventManagement.Events.IntegrationEvents\EventManagement.Events.IntegrationEvents.csproj" />
   </ItemGroup>

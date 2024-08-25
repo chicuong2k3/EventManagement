@@ -14,8 +14,4 @@
     <ProjectReference Include="..\EventManagement.Ticketing.IntegrationEvents\EventManagement.Ticketing.IntegrationEvents.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Payments\" />
-  </ItemGroup>
-
 </Project>

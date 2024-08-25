@@ -55,7 +55,7 @@ builder.Services.AddCommonApplication([
         EventManagement.Attendance.Infrastructure.DependencyInjection.ConfigureIntegrationEventHandlers,
         EventManagement.Ticketing.Infrastructure.DependencyInjection.ConfigureIntegrationEventHandlers,
         EventManagement.Users.Infrastructure.DependencyInjection.ConfigureIntegrationEventHandlers,
-        EventManagement.Events.Infrastructure.DependencyInjection.ConfigureIntegrationEventHandlers,
+        EventManagement.Events.Infrastructure.DependencyInjection.ConfigureMassTransitHandlers(cacheConnectionString),
     ], 
     dbConnectionString, 
     cacheConnectionString

@@ -2,6 +2,7 @@
 using EventManagement.Common.Application.Messaging;
 using EventManagement.Common.Infrastructure.Outbox;
 using EventManagement.Events.Application.Abstractions.Data;
+using EventManagement.Events.Application.Events.CancelEvent.Saga;
 using EventManagement.Events.Domain.Categories;
 using EventManagement.Events.Domain.Events;
 using EventManagement.Events.Domain.TicketTypes;
@@ -88,8 +89,11 @@ namespace EventManagement.Events.Infrastructure
 
         }
 
-        public static void ConfigureIntegrationEventHandlers(IRegistrationConfigurator registrationConfigurator)
+        public static Action<IRegistrationConfigurator> ConfigureMassTransitHandlers(string redisConnectionString)
         {
+            return registrationConfigurator => 
+                registrationConfigurator.AddSagaStateMachine<CancelEventSaga, CancelEventState>()
+                    .RedisRepository(redisConnectionString);
         }
 
         private static void AddIntegrationEventHandlers(this IServiceCollection services)

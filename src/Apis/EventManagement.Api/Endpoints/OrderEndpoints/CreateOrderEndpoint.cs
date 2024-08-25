@@ -1,4 +1,4 @@
-﻿using EventManagement.Ticketing.Application.Orders;
+﻿using EventManagement.Ticketing.Application.Orders.CreateOrder;
 
 namespace EventManagement.Api.Endpoints.OrderEndpoints;
 

@@ -1,5 +1,5 @@
 ﻿using EventManagement.Common.Application.Exceptions;
-using EventManagement.Ticketing.Application.Tickets;
+using EventManagement.Ticketing.Application.Tickets.CreateTicketBatch;
 using EventManagement.Ticketing.Domain.Orders;
 using MediatR;
 
